@@ -19,10 +19,7 @@
         .sub-table,.anime{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            
-            font-family: Garamond, serif;   
-        }
+        
     </style>
     
     
@@ -59,6 +56,7 @@
     
     ?>
     <div class="container">
+        
         <div class="menu">
             <table class="menu-container" border="0">
                 <tr>
@@ -88,10 +86,10 @@
                 </tr>
                 <tr class="menu-row">
                 <td class="menu-btn menu-icon-doctor">
-                   <a href="doctors.php" class="non-style-link-menu">
+                   <a href="advocates.php" class="non-style-link-menu">
                     <div>
                          <p class="menu-text">Advocates for You</p>
-                            <div class="menu-icon" style="background-image: url('https://img.icons8.com/?size=5x&id=fnEVNYOK0uhR&format=png');"></div>
+                            
                     </div>
                 </a>
             </td>
@@ -166,7 +164,7 @@
                             <h3>Welcome to TLS, Sheria Mkononi!</h3>
                             <h1><?php echo $username  ?>.</h1>
                             <p>Do you need legal help, get to talk to our pool of  
-                                <a href="doctors.php" class="non-style-link"><b>"Advocates"</b></a> or get your
+                                <a href="advocates.php" class="non-style-link"><b>"Advocates"</b></a> or get your
                                 <a href="schedule.php" class="non-style-link"><b>"DIY Documents"</b> </a><br>
                                 Track your past sessions and transactions.<br>Also get access to your legal documents without a hustle.<br><br>
                             </p>
@@ -177,12 +175,12 @@
                                 <input type="search" name="search" class="input-text " placeholder="Search for Advocates close to you and schedule a meeting" list="doctors" style="width:45%;">&nbsp;&nbsp;
                                 
                                 <?php
-                                    echo '<datalist id="doctors">';
-                                    $list11 = $database->query("select  docname,docemail from  doctor;");
+                                    echo '<datalist id="advocate">';
+                                    $list11 = $database->query("select  advname,advemail from  advocate;");
     
                                     for ($y=0;$y<$list11->num_rows;$y++){
                                         $row00=$list11->fetch_assoc();
-                                        $d=$row00["docname"];
+                                        $d=$row00["advname"];
                                         
                                         echo "<option value='$d'><br/>";
                                         
@@ -227,7 +225,7 @@
     <div class="dashboard-items" style="padding: 20px; margin: auto; width: 95%; display: flex; align-items: center;">
       <div>
         <div class="h1-dashboard">
-          <?php echo $doctorrow->num_rows ?>
+          <?php echo $advocaterow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
           My Advocates &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -240,7 +238,7 @@
     <div class="dashboard-items" style="padding: 20px; margin: auto; width: 95%; display: flex; align-items: center;">
       <div>
         <div class="h1-dashboard">
-          <?php echo $patientrow->num_rows ?>
+          <?php echo $clientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
           My Documents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -328,7 +326,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
+                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advid=advocate.advid  where  client.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
                                                 //echo $sqlmain;
                                                 $result= $database->query($sqlmain);
                 
@@ -341,7 +339,7 @@
                                                     
                                                     <br>
                                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Nothing to show here!</p>
-                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Channel a Doctor &nbsp;</font></button>
+                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Channel an Advocate &nbsp;</font></button>
                                                     </a>
                                                     </center>
                                                     <br><br><br><br>
