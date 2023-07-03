@@ -37,34 +37,7 @@ if($_POST){
         'dob'=>$_POST['dob']
     );
 
-    // Check if the admission number exists
-    $admissionNumber = $_POST['admission_number'];
-    $checkUrl = "https://online.lsk.or.ke/";
-
-    // Perform the check using the admission number and the website
-    // Modify this part to suit your requirements
-    // You may need to use a library like cURL or perform an HTTP request
-    // to scrape the website and check if the admission number exists
-
-    // Example code using cURL:
-    // $curl = curl_init();
-    // curl_setopt($curl, CURLOPT_URL, $checkUrl);
-    // curl_setopt($curl, CURLOPT_POST, true);
-    // curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query(['admission_number' => $admissionNumber]));
-    // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // $response = curl_exec($curl);
-    // curl_close($curl);
-
-    // Process the response and check if the admission number exists
-
-    // Assuming the admission number exists
-    $admissionNumberExists = true;
-
-    if ($admissionNumberExists) {
-        header("location: upload-practicing-certificate.php");
-    } else {
-        echo "Invalid admission number!";
-    }
+   
 
     print_r($_SESSION["personal"]);
     header("location: adv-account.php");
@@ -127,16 +100,7 @@ if($_POST){
                     <input type="date" name="dob" class="input-text" required>
                 </td>
             </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <label for="admission_number" class="form-label">Admission Number: </label>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="text" name="admission_number" class="input-text" placeholder="Admission Number" required>
-                </td>
-            </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
                 </td>

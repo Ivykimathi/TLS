@@ -10,18 +10,17 @@
         
     <title>Dashboard</title>
     <style>
-        .dashbord-tables{
+        .dashbord-tables,.doctor-heade{
             animation: transitionIn-Y-over 0.5s;
         }
         .filter-container{
             animation: transitionIn-Y-bottom  0.5s;
         }
-        .sub-table,.anime{
+        .sub-table,#anim{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            
-            font-family: Garamond, serif;   
+        .doctor-heade{
+            animation: transitionIn-Y-over 0.5s;
         }
     </style>
     
@@ -35,7 +34,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='c'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='l'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -48,10 +47,10 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from client where pemail='$useremail'");
+    $userrow = $database->query("select * from advocate where advemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
+    $userid= $userfetch["advid"];
+    $username=$userfetch["advname"];
 
 
     //echo $userid;
@@ -82,30 +81,24 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home menu-active menu-icon-home-active" >
-                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
+                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                <td class="menu-btn menu-icon-doctor">
-                   <a href="doctors.php" class="non-style-link-menu">
-                    <div>
-                         <p class="menu-text">Advocates for You</p>
-                            <div class="menu-icon" style="background-image: url('https://img.icons8.com/?size=5x&id=fnEVNYOK0uhR&format=png');"></div>
-                    </div>
-                </a>
-            </td>
-        </tr>
-
+                    <td class="menu-btn menu-icon-appoinment">
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
+                    </td>
+                </tr>
                 
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
+                    <td class="menu-btn menu-icon-patient">
+                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
@@ -122,7 +115,7 @@
                         <tr >
                             
                             <td colspan="1" class="nav-bar" >
-                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">Home</p>
+                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">     Dashboard</p>
                           
                             </td>
                             <td width="25%">
@@ -140,8 +133,8 @@
                                 echo $today;
 
 
-                                $clientrow = $database->query("select  * from  client;");
-                                $advocaterow = $database->query("select  * from  advocate;");
+                                $patientrow = $database->query("select  * from  patient;");
+                                $doctorrow = $database->query("select  * from  doctor;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -159,44 +152,17 @@
                     <td colspan="4" >
                         
                     <center>
-                    <div id="blur-background"></div>
-                    <table class="filter-container doctor-header patient-header" style="border: none;width:95%" border="0" >
+                    <table class="filter-container doctor-header" style="border: none;width:95%" border="0" >
                     <tr>
                         <td >
-                            <h3>Welcome to TLS, Sheria Mkononi!</h3>
+                            <h3>Welcome!</h3>
                             <h1><?php echo $username  ?>.</h1>
-                            <p>Do you need legal help, get to talk to our pool of  
-                                <a href="doctors.php" class="non-style-link"><b>"Advocates"</b></a> or get your
-                                <a href="schedule.php" class="non-style-link"><b>"DIY Documents"</b> </a><br>
-                                Track your past sessions and transactions.<br>Also get access to your legal documents without a hustle.<br><br>
+                            <p>Join us in our mission to democratize the law. We are always trying to get justice to those in need.<br>
+                            You can view your dailly schedule, Reach Clients from home!<br><br>
                             </p>
-                            
-                            <h3>Find an Advocate from here</h3>
-                            <form action="schedule.php" method="post" style="display: flex">
-
-                                <input type="search" name="search" class="input-text " placeholder="Search for Advocates close to you and schedule a meeting" list="doctors" style="width:45%;">&nbsp;&nbsp;
-                                
-                                <?php
-                                    echo '<datalist id="doctors">';
-                                    $list11 = $database->query("select  docname,docemail from  doctor;");
-    
-                                    for ($y=0;$y<$list11->num_rows;$y++){
-                                        $row00=$list11->fetch_assoc();
-                                        $d=$row00["docname"];
-                                        
-                                        echo "<option value='$d'><br/>";
-                                        
-                                    };
-    
-                                echo ' </datalist>';
-    ?>
-                                
-                           
-                                <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                            
+                            <a href="appointment.php" class="non-style-link"><button class="btn-primary btn" style="width:30%">View My Appointments</button></a>
                             <br>
                             <br>
-                            
                         </td>
                     </tr>
                     </table>
@@ -215,7 +181,7 @@
 
 
 
-                                    <center>
+                                <center>
                                         <table class="filter-container" style="border: none;" border="0">
                                             <tr>
                                                 <td colspan="4">
@@ -230,10 +196,10 @@
           <?php echo $doctorrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          My Advocates &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          My Clients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
-      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=512&id=fnEVNYOK0uhR&format=png'); background-position: center; background-size: cover;"></div>
+      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=z2Pf0IGYx2vt&format=png'); background-position: center; background-size: cover;"></div>
     </div>
   </td>
   <td style="width: 25%;">
@@ -243,10 +209,10 @@
           <?php echo $patientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          My Documents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          New Bookings &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
-      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=PqDbOXnH4Mpu&format=png'); background-position: center; background-size: cover;"></div>
+      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=2b9yzbtBZAm0&format=png'); background-position: center; background-size: cover;"></div>
     </div>
   </td>
 </tr>
@@ -258,10 +224,10 @@
           <?php echo $appointmentrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          New Bookings &nbsp;&nbsp;
+          Earnings &nbsp;&nbsp;
         </div>
       </div>
-      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=123456&format=png'); background-position: center; background-size: cover; margin-left: 0;"></div>
+      <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=Jfor1YnCQh3Z&format=png'); background-position: center; background-size: cover; margin-left: 40;"></div>
     </div>
   </td>
   <td style="width: 25%;">
@@ -281,6 +247,7 @@
 </table>
                                     </center>
 
+                                    
 
 
 
@@ -293,19 +260,13 @@
 
 
                             
-                                    <p style="font-size: 20px;font-weight:600;padding-left: 40px;" class="anime">Your Upcoming Session</p>
+                                    <p id="anim" style="font-size: 20px;font-weight:600;padding-left: 40px;">Your Up Coming Sessions until Next week</p>
                                     <center>
-                                        <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
+                                        <div class="abc" style="height: 250px;padding: 0;margin: 0;">
                                         <table width="85%" class="sub-table scrolldown" border="0" >
                                         <thead>
                                             
                                         <tr>
-                                        <th class="table-headin">
-                                                    
-                                                
-                                                    Appoint. Number
-                                                    
-                                                    </th>
                                                 <th class="table-headin">
                                                     
                                                 
@@ -314,11 +275,11 @@
                                                 </th>
                                                 
                                                 <th class="table-headin">
-                                                    Advocate
+                                                Sheduled Date
                                                 </th>
                                                 <th class="table-headin">
                                                     
-                                                    Sheduled Date & Time
+                                                     Time
                                                     
                                                 </th>
                                                     
@@ -328,8 +289,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
-                                                //echo $sqlmain;
+                                            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
                                                 $result= $database->query($sqlmain);
                 
                                                 if($result->num_rows==0){
@@ -340,8 +300,8 @@
                                                     <img src="../img/notfound.svg" width="25%">
                                                     
                                                     <br>
-                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Nothing to show here!</p>
-                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Channel a Doctor &nbsp;</font></button>
+                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
                                                     </a>
                                                     </center>
                                                     <br><br><br><br>
@@ -354,23 +314,19 @@
                                                     $row=$result->fetch_assoc();
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
-                                                    $apponum=$row["apponum"];
                                                     $docname=$row["docname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
-                                                   
+                                                    $nop=$row["nop"];
                                                     echo '<tr>
-                                                        <td style="padding:30px;font-size:25px;font-weight:700;"> &nbsp;'.
-                                                        $apponum
-                                                        .'</td>
                                                         <td style="padding:20px;"> &nbsp;'.
                                                         substr($title,0,30)
                                                         .'</td>
-                                                        <td>
-                                                        '.substr($docname,0,20).'
+                                                        <td style="padding:20px;font-size:13px;">
+                                                        '.substr($scheduledate,0,10).'
                                                         </td>
                                                         <td style="text-align:center;">
-                                                            '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
+                                                            '.substr($scheduletime,0,5).'
                                                         </td>
 
                 

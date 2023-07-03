@@ -61,20 +61,20 @@ if($_POST){
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
             
-            $database->query("insert into client(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            $database->query("insert into webuser values('$email','c')");
+            $database->query("insert into advocate(advemail,advname,advpassword, advaddress, advnic,advdob,advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            $database->query("insert into webuser values('$email','l')");
 
-            //print_r("insert into client values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
+            //print_r("insert into advocate values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
-            $_SESSION["usertype"]="c";
+            $_SESSION["usertype"]="l";
             $_SESSION["username"]=$fname;
 
-            header('Location: client/index.php');
+            header('Location: advocate/index.php');
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
         }
         
     }else{
-        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>';
+        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Confirmation Error! Reconfirm Password</label>';
     }
 
 
@@ -93,8 +93,8 @@ if($_POST){
         <table border="0" style="width: 69%;">
             <tr>
                 <td colspan="2">
-                    <p class="header-text">Let's Get Started</p>
-                    <p class="sub-text">It's Okey, Now Create User Account.</p>
+                    <p class="header-text">Just a few more details</p>
+                    <p class="sub-text">Now Create Your Advocate Account.</p>
                 </td>
             </tr>
             <tr>

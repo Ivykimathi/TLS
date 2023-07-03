@@ -79,15 +79,15 @@
                 }
 
 
-            }elseif($utype=='d'){
-                $checker = $database->query("select * from doctor where docemail='$email' and docpassword='$password'");
+            }elseif($utype=='l'){
+                $checker = $database->query("select * from advocate where advemail='$email' and advpassword='$password'");
                 if ($checker->num_rows==1){
 
 
-                    //   doctor dashbord
+                    //   advocate dashbord
                     $_SESSION['user']=$email;
-                    $_SESSION['usertype']='d';
-                    header('location: doctor/index.php');
+                    $_SESSION['usertype']='l';
+                    header('location: advocate/index.php');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
