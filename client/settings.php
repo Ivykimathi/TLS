@@ -21,10 +21,7 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            
-            font-family: Garamond, serif;   
-        }
+        
     </style>
     
     
