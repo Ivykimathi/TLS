@@ -22,9 +22,29 @@
         .doctor-heade{
             animation: transitionIn-Y-over 0.5s;
         }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay-content {
+            background-color: #fff;
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+        }
+
     </style>
     
-    ///;,l ; ./ 
+
 </head>
 <body>
     <?php
@@ -51,6 +71,15 @@
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["advid"];
     $username=$userfetch["advname"];
+    $verified = $userfetch['verified'];
+
+   
+    if ($verified == 0) {
+        // Advocate is not verified, display the prompt to upload necessary documents
+        
+        echo '<script>document.body.classList.add("overlay-active");</script>';
+    }
+
 
 
     //echo $userid;
@@ -81,29 +110,29 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td>
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Cases</p></div></a>
                     </td>
-                </tr>\]
+                </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    <td>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td>
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -116,7 +145,7 @@
                         <tr >
                             
                             <td colspan="1" class="nav-bar" >
-                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">     Dashboard</p>
+                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">Dashboard</p>
                           
                             </td>
                             <td width="25%">
@@ -134,8 +163,8 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  client;");
-                                $doctorrow = $database->query("select  * from  advocate;");
+                                $clientrow = $database->query("select  * from  client;");
+                                $advocaterow = $database->query("select  * from  advocate;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -156,7 +185,7 @@
                     <table class="filter-container doctor-header" style="border: none;width:95%" border="0" >
                     <tr>
                         <td >
-                            <h3>Welcome!</h3>
+                            <h3>Welcome to TLS Wakili!</h3>
                             <h1><?php echo $username  ?>.</h1>
                             <p>Join us in our mission to democratize the law. We are always trying to get justice to those in need.<br>
                             You can view your dailly schedule, Reach Clients from home!<br><br>
@@ -194,7 +223,7 @@
     <div class="dashboard-items" style="padding: 20px; margin: auto; width: 95%; display: flex; align-items: center;">
       <div>
         <div class="h1-dashboard">
-          <?php echo $doctorrow->num_rows ?>
+          <?php echo $advocaterow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
           My Clients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -207,10 +236,10 @@
     <div class="dashboard-items" style="padding: 20px; margin: auto; width: 95%; display: flex; align-items: center;">
       <div>
         <div class="h1-dashboard">
-          <?php echo $patientrow->num_rows ?>
+          <?php echo $clientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          New Bookings &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          New Appointments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=2b9yzbtBZAm0&format=png'); background-position: center; background-size: cover;"></div>
@@ -225,7 +254,7 @@
           <?php echo $appointmentrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          Earnings &nbsp;&nbsp;
+          Open Cases &nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=Jfor1YnCQh3Z&format=png'); background-position: center; background-size: cover; margin-left: 40;"></div>
@@ -238,7 +267,7 @@
           <?php echo $schedulerow->num_rows ?>
         </div><br>
         <div class="h3-dashboard" style="font-size: 15px;">
-          Completed Sessions
+          Closed Cases
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=RcOIhFn0DUPd&format=png'); background-position: center; background-size: cover;"></div>
@@ -315,7 +344,7 @@
                                                     $row=$result->fetch_assoc();
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
-                                                    $docname=$row["docname"];
+                                                    $docname=$row["advname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
                                                     $nop=$row["nop"];
@@ -359,7 +388,53 @@
             </table>
         </div>
     </div>
+<script>
+   // Wait for the page to load
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if the overlay class is present in the body tag
+    if (document.body.classList.contains("overlay-active")) {
+        // Create the overlay element
+        var overlay = document.createElement("div");
+        overlay.classList.add("overlay");
 
+        // Create the overlay content element
+        var overlayContent = document.createElement("div");
+        overlayContent.classList.add("overlay-content");
+
+        // Add a sad emoji
+        overlayContent.innerHTML = '<p>Please upload your practicing certificate and admission number from your account settings. \uD83D\uDE22 But don\'t worry, we promise this process is less dramatic than a courtroom scene from a legal TV show!!</p>';
+
+        // Create a link to the settings page
+        var settingsLink = document.createElement("a");
+        settingsLink.href = "settings.php";
+        settingsLink.textContent = "Go to Account Settings";
+
+        // Add the link to the overlay content
+        overlayContent.appendChild(settingsLink);
+
+        // Add the overlay content to the overlay
+        overlay.appendChild(overlayContent);
+
+        // Append the overlay to the body
+        document.body.appendChild(overlay);
+
+        // Add event listener to the overlay content
+        overlayContent.addEventListener("click", function(e) {
+            e.stopPropagation(); // Prevent click event from bubbling up to the overlay
+
+            // Set the session variable to indicate prompt cancellation
+            fetch("cancel_prompt.php").then(function(response) {
+                if (response.ok) {
+                    // Remove the overlay from the DOM
+                    overlay.remove();
+                }
+            });
+        });
+    }
+});
+
+
+    </script>
 
 </body>
 </html>

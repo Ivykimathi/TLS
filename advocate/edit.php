@@ -23,10 +23,10 @@
         
         if ($password==$cpassword){
             $error='3';
-            $result= $database->query("select doctor.docid from doctor inner join webuser on doctor.docemail=webuser.email where webuser.email='$email';");
+            $result= $database->query("select advocate.advid from advocate inner join webuser on advocate.advemail=webuser.email where webuser.email='$email';");
             //$resultqq= $database->query("select * from doctor where docid='$id';");
             if($result->num_rows==1){
-                $id2=$result->fetch_assoc()["docid"];
+                $id2=$result->fetch_assoc()["advid"];
             }else{
                 $id2=$id;
             }
@@ -41,7 +41,7 @@
             }else{
 
                 //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-                $sql1="update doctor set docemail='$email',docname='$name',docpassword='$password',docnic='$nic',doctel='$tele',specialties=$spec where docid=$id ;";
+                $sql1="update advocate set advemail='$email',advname='$name',advpassword='$password',advnic='$nic',advtel='$tele',specialties=$spec where advid=$id ;";
                 $database->query($sql1);
 
                 $sql1="update webuser set email='$email' where email='$oldemail' ;";

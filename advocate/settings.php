@@ -33,7 +33,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='d'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='l'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -46,10 +46,10 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $database->query("select * from advocate where advemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["docid"];
-    $username=$userfetch["docname"];
+    $userid= $userfetch["advid"];
+    $username=$userfetch["advname"];
 
 
     //echo $userid;
@@ -133,8 +133,8 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
+                                $patientrow = $database->query("select  * from  client;");
+                                $doctorrow = $database->query("select  * from  advocate;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -264,18 +264,18 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from advocate where advid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
+            $name=$row["advname"];
+            $email=$row["advemail"];
             $spe=$row["specialties"];
             
             $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
+            $nic=$row['advnic'];
+            $tele=$row['advtel'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -283,7 +283,7 @@
                         <h2></h2>
                         <a class="close" href="settings.php">&times;</a>
                         <div class="content">
-                            eDoc Web App<br>
+                            TLS<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">

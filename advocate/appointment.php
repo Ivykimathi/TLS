@@ -26,7 +26,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='d'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='l'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -38,12 +38,21 @@
     
     
 
-       //import database
-       include("../connection.php");
-       $userrow = $database->query("select * from doctor where docemail='$useremail'");
-       $userfetch=$userrow->fetch_assoc();
-       $userid= $userfetch["docid"];
-       $username=$userfetch["docname"];
+      //import database
+    include("../connection.php");
+    $userrow = $database->query("select * from advocate where advemail='$useremail'");
+    $userfetch=$userrow->fetch_assoc();
+    $userid= $userfetch["advid"];
+    $username=$userfetch["advname"];
+    $verified = $userfetch['verified'];
+
+   
+    if ($verified == 0) {
+        // Advocate is not verified, display the prompt to upload necessary documents
+        
+        echo '<script>document.body.classList.add("overlay-active");</script>';
+    }
+
     //echo $userid;
     ?>
     <div class="container">
@@ -600,6 +609,53 @@
 
     ?>
     </div>
+    <script>
+   // Wait for the page to load
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if the overlay class is present in the body tag
+    if (document.body.classList.contains("overlay-active")) {
+        // Create the overlay element
+        var overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+
+        // Create the overlay content element
+        var overlayContent = document.createElement("div");
+        overlayContent.classList.add("overlay-content");
+
+        // Add a sad emoji
+        overlayContent.innerHTML = '<p>Please upload your practicing certificate and admission number from your account settings. \uD83D\uDE22 But don\'t worry, we promise this process is less dramatic than a courtroom scene from a legal TV show!!</p>';
+
+        // Create a link to the settings page
+        var settingsLink = document.createElement("a");
+        settingsLink.href = "settings.php";
+        settingsLink.textContent = "Go to Account Settings";
+
+        // Add the link to the overlay content
+        overlayContent.appendChild(settingsLink);
+
+        // Add the overlay content to the overlay
+        overlay.appendChild(overlayContent);
+
+        // Append the overlay to the body
+        document.body.appendChild(overlay);
+
+        // Add event listener to the overlay content
+        overlayContent.addEventListener("click", function(e) {
+            e.stopPropagation(); // Prevent click event from bubbling up to the overlay
+
+            // Set the session variable to indicate prompt cancellation
+            fetch("cancel_prompt.php").then(function(response) {
+                if (response.ok) {
+                    // Remove the overlay from the DOM
+                    overlay.remove();
+                }
+            });
+        });
+    }
+});
+
+
+    </script>
 
 </body>
 </html>
