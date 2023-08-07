@@ -26,7 +26,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='d'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='l'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -40,10 +40,10 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $database->query("select * from advocate where advemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["docid"];
-    $username=$userfetch["docname"];
+    $userid= $userfetch["advid"];
+    $username=$userfetch["advname"];
  //echo $userid;
  ?>
  <div class="container">
@@ -70,33 +70,39 @@
                  </td>
              </tr>
              <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td>
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
+                
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    <td>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
-             
-         </table>
+                
+            </table>
         </div>
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
@@ -120,7 +126,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select  * from  schedule where docid=$userid;");
+                        $list110 = $database->query("select  * from  schedule where advid=$userid;");
 
                         ?>
                         </p>
@@ -174,7 +180,7 @@
                 
                 <?php
 
-                $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid where doctor.docid=$userid ";
+                $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid where advocate.advid=$userid ";
                     if($_POST){
                         //print_r($_POST);
                         $sqlpt1="";
@@ -248,7 +254,7 @@
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
-                                    $docname=$row["docname"];
+                                    $advname=$row["advname"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
                                     $nop=$row["nop"];
@@ -319,10 +325,10 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where  schedule.scheduleid=$id";
+            $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid  where  schedule.scheduleid=$id";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $docname=$row["docname"];
+            $advname=$row["advname"];
             $scheduleid=$row["scheduleid"];
             $title=$row["title"];
             $scheduledate=$row["scheduledate"];
@@ -367,12 +373,12 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Doctor of this session: </label>
+                                    <label for="Email" class="form-label">Advocate of this session: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                '.$docname.'<br><br>
+                                '.$advname.'<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -397,7 +403,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label"><b>Patients that Already registerd for this session:</b> ('.$result12->num_rows."/".$nop.')</label>
+                                    <label for="spec" class="form-label"><b>Clients that Already registerd for this session:</b> ('.$result12->num_rows."/".$nop.')</label>
                                     <br><br>
                                 </td>
                             </tr>
@@ -411,10 +417,10 @@
                                  <thead>
                                  <tr>   
                                         <th class="table-headin">
-                                             Patient ID
+                                             Client ID
                                          </th>
                                          <th class="table-headin">
-                                             Patient name
+                                             Client name
                                          </th>
                                          <th class="table-headin">
                                              
@@ -424,7 +430,7 @@
                                         
                                          
                                          <th class="table-headin">
-                                             Patient Telephone
+                                             Client Telephone
                                          </th>
                                          
                                  </thead>

@@ -69,30 +69,35 @@
                     </table>
                     </td>
                 
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home " >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    <tr class="menu-row" >
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor menu-active menu-icon-doctor-active">
-                        <a href="doctors.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Advocates for you</p></a></div>
-                    </td>
-                </tr>
+                <td>
+                   <a href="advocates.php" class="non-style-link-menu">
+                    <div>
+                         <p class="menu-text">Advocates for You</p>
+                            
+                    </div>
+                </a>
+            </td>
+        </tr>
+
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Scheduled Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td >
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -160,14 +165,15 @@
                     
                 </tr>
                 <?php
-                    if($_POST){
-                        $keyword=$_POST["search"];
-                        
-                        $sqlmain= "select * from advocate where advemail='$keyword' or advname='$keyword' or advname like '$keyword%' or advname like '%$keyword' or advname like '%$keyword%'";
-                    }else{
-                        $sqlmain= "select * from advocate order by advid desc";
-
+                    
+                    // Update the SQL query to retrieve only verified advocates
+                    if ($_POST) {
+                        $keyword = $_POST["search"];
+                        $sqlmain = "SELECT * FROM advocate WHERE (advemail='$keyword' OR advname='$keyword' OR advname LIKE '$keyword%' OR advname LIKE '%$keyword' OR advname LIKE '%$keyword%') AND verified = 1";
+                    } else {
+                        $sqlmain = "SELECT * FROM advocate WHERE verified = 1 ORDER BY advid DESC";
                     }
+                    
 
 
 
@@ -216,7 +222,7 @@
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="doctors.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
+                                    <a class="non-style-link" href="advocates.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
                                     </a>
                                     </center>
                                     <br><br><br><br>
@@ -285,14 +291,14 @@
                     <div class="popup">
                     <center>
                         <h2>Are you sure?</h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="advocates.php">&times;</a>
                         <div class="content">
                             You want to delete this record<br>('.substr($nameget,0,40).').
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-doctor.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="doctors.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
+                        <a href="delete-advocate.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="advocates.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>
                     </center>
@@ -300,30 +306,30 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from advocate where advid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
+            $name=$row["advname"];
+            $email=$row["advemail"];
             $spe=$row["specialties"];
             
             $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
+            $nic=$row['advnic'];
+            $tele=$row['advtel'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
                         <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="advocates.php">&times;</a>
                         <div class="content">
                             Advocates Profile<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                         
                             <tr>
                                 <td>
@@ -408,7 +414,7 @@
                     <div class="popup">
                     <center>
                         <h2>Redirect to Doctors sessions?</h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="advocates.php">&times;</a>
                         <div class="content">
                             You want to view All sessions by <br>('.substr($name,0,40).').
                             
@@ -460,10 +466,10 @@
                             <div class="popup">
                             <center>
                             
-                                <a class="close" href="doctors.php">&times;</a> 
+                                <a class="close" href="advocates.php">&times;</a> 
                                 <div style="display: flex;justify-content: center;">
                                 <div class="abc">
-                                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                                 <tr>
                                         <td class="label-td" colspan="2">'.
                                             $errorlist[$error_1]
@@ -477,7 +483,7 @@
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <form action="edit-doc.php" method="POST" class="add-new-form">
+                                            <form action="edit-adv.php" method="POST" class="add-new-form">
                                             <label for="Email" class="form-label">Email: </label>
                                             <input type="hidden" value="'.$id.'" name="id00">
                                         </td>

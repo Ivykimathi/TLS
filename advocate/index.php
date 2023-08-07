@@ -10,7 +10,7 @@
         
     <title>Dashboard</title>
     <style>
-        .dashbord-tables,.doctor-heade{
+        .dashbord-tables,.advocate-heade{
             animation: transitionIn-Y-over 0.5s;
         }
         .filter-container{
@@ -19,7 +19,7 @@
         .sub-table,#anim{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        .doctor-heade{
+        .advocate-heade{
             animation: transitionIn-Y-over 0.5s;
         }
         .overlay {
@@ -122,13 +122,18 @@
                 
                 <tr class="menu-row" >
                     <td>
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Cases</p></div></a>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
                     <td>
-                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
@@ -182,7 +187,7 @@
                     <td colspan="4" >
                         
                     <center>
-                    <table class="filter-container doctor-header" style="border: none;width:95%" border="0" >
+                    <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
                     <tr>
                         <td >
                             <h3>Welcome to TLS Wakili!</h3>
@@ -226,7 +231,7 @@
           <?php echo $advocaterow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          My Clients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Advocates Online &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=z2Pf0IGYx2vt&format=png'); background-position: center; background-size: cover;"></div>
@@ -239,7 +244,7 @@
           <?php echo $clientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          New Appointments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Total Users &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=2b9yzbtBZAm0&format=png'); background-position: center; background-size: cover;"></div>
@@ -254,7 +259,7 @@
           <?php echo $appointmentrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          Open Cases &nbsp;&nbsp;
+          Bookings &nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=Jfor1YnCQh3Z&format=png'); background-position: center; background-size: cover; margin-left: 40;"></div>
@@ -267,7 +272,7 @@
           <?php echo $schedulerow->num_rows ?>
         </div><br>
         <div class="h3-dashboard" style="font-size: 15px;">
-          Closed Cases
+          Sessions
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=RcOIhFn0DUPd&format=png'); background-position: center; background-size: cover;"></div>
@@ -344,7 +349,7 @@
                                                     $row=$result->fetch_assoc();
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
-                                                    $docname=$row["advname"];
+                                                    $advname=$row["advname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
                                                     $nop=$row["nop"];

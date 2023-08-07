@@ -19,10 +19,7 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            font-family: Garamond, serif;
-            
-        }
+        
     </style>
     
     
@@ -53,7 +50,7 @@
         <div class="menu">
             <table class="menu-container" border="0">
                 <tr>
-                    <td style="padding:10px;font-family: Garamond, serif;" colspan="2">
+                    <td style="padding:10px;" colspan="2">
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px" >
@@ -73,28 +70,28 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor ">
-                        <a href="doctors.php" class="non-style-link-menu "><div><p class="menu-text">Advocates</p></a></div>
+                    <td >
+                        <a href="advocates.php" class="non-style-link-menu "><div><p class="menu-text">Advocates</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">Clients</p></a></div>
+                    <td>
+                        <a href="client.php" class="non-style-link-menu"><div><p class="menu-text">Clients</p></a></div>
                     </td>
                 </tr>
             </table>
@@ -106,18 +103,18 @@
                             
                             <td colspan="2" class="nav-bar" >
                                 
-                                <form action="doctors.php" method="post" class="header-search">
+                                <form action="advocates.php" method="post" class="header-search">
         
-                                    <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Advocate name or Email" list="doctors">&nbsp;&nbsp;
+                                    <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Advocate name or Email" list="advocates">&nbsp;&nbsp;
                                     
                                     <?php
-                                        echo '<datalist id="doctors">';
-                                        $list11 = $database->query("select  docname,docemail from  doctor;");
+                                        echo '<datalist id="advocates">';
+                                        $list11 = $database->query("select  advname,advemail from  advocate;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
-                                            $d=$row00["docname"];
-                                            $c=$row00["docemail"];
+                                            $d=$row00["advname"];
+                                            $c=$row00["advemail"];
                                             echo "<option value='$d'><br/>";
                                             echo "<option value='$c'><br/>";
                                         };
@@ -143,8 +140,8 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
+                                $clientrow = $database->query("select  * from  client;");
+                                $advocaterow = $database->query("select  * from  advocate;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -173,26 +170,26 @@
                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex">
                                         <div>
                                                 <div class="h1-dashboard">
-                                                    <?php    echo $doctorrow->num_rows  ?>
+                                                    <?php    echo $advocaterow->num_rows  ?>
                                                 </div><br>
                                                 <div class="h3-dashboard">
                                                     Advocates &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </div>
                                         </div>
-                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
+                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/advocates-hover.svg');"></div>
                                     </div>
                                 </td>
                                 <td style="width: 25%;">
                                     <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;">
                                         <div>
                                                 <div class="h1-dashboard">
-                                                    <?php    echo $patientrow->num_rows  ?>
+                                                    <?php    echo $clientrow->num_rows  ?>
                                                 </div><br>
                                                 <div class="h3-dashboard">
                                                     Clients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </div>
                                         </div>
-                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/patients-hover.svg');"></div>
+                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/clients-hover.svg');"></div>
                                     </div>
                                 </td>
                                 <td style="width: 25%;">
@@ -294,7 +291,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                            $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,advocate.advname,client.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advid=advocate.advid  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
 
                                                 $result= $database->query($sqlmain);
                 
@@ -321,7 +318,7 @@
                                                     $appoid=$row["appoid"];
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
-                                                    $docname=$row["docname"];
+                                                    $advname=$row["advname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
                                                     $pname=$row["pname"];
@@ -341,7 +338,7 @@
                                                         .'</td >
                                                         <td style="font-weight:600;"> &nbsp;'.
                                                         
-                                                            substr($docname,0,25)
+                                                            substr($advname,0,25)
                                                             .'</td >
                                                            
                                                         
@@ -390,7 +387,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
+                                            $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
                                                 $result= $database->query($sqlmain);
                 
                                                 if($result->num_rows==0){
@@ -415,7 +412,7 @@
                                                     $row=$result->fetch_assoc();
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
-                                                    $docname=$row["docname"];
+                                                    $advname=$row["advname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
                                                     $nop=$row["nop"];
@@ -424,7 +421,7 @@
                                                         substr($title,0,30)
                                                         .'</td>
                                                         <td>
-                                                        '.substr($docname,0,20).'
+                                                        '.substr($advname,0,20).'
                                                         </td>
                                                         <td style="text-align:center;">
                                                             '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'

@@ -8,17 +8,15 @@
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
         
-
-
-    <title>Settings</title>
+    <title>Dashboard</title>
     <style>
         .dashbord-tables{
             animation: transitionIn-Y-over 0.5s;
         }
         .filter-container{
-            animation: transitionIn-X  0.5s;
+            animation: transitionIn-Y-bottom  0.5s;
         }
-        .sub-table{
+        .sub-table,.anime{
             animation: transitionIn-Y-bottom 0.5s;
         }
         
@@ -52,8 +50,13 @@
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
 
+
+    //echo $userid;
+    //echo $username;
+    
     ?>
     <div class="container">
+        
         <div class="menu">
             <table class="menu-container" border="0">
                 <tr>
@@ -70,37 +73,42 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                     </table>
                     </td>
-                
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home " >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="advocates.php" class="non-style-link-menu"><div><p class="menu-text">Advocates for you</p></a></div>
-                    </td>
-                </tr>
+                <td>
+                   <a href="advocates.php" class="non-style-link-menu">
+                    <div>
+                         <p class="menu-text">Advocates for You</p>
+                            
+                    </div>
+                </a>
+            </td>
+        </tr>
+
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Scheduled Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings  menu-active menu-icon-settings-active">
-                        <a href="settings.php" class="non-style-link-menu  non-style-link-menu-active"><div><p class="menu-text">Settings</p></a></div>
+                    <td >
+                        <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
                 
@@ -131,8 +139,8 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  client;");
-                                $doctorrow = $database->query("select  * from  advocate;");
+                                $clientrow = $database->query("select  * from  client;");
+                                $advocaterow = $database->query("select  * from  advocate;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -160,7 +168,6 @@
                                 <td style="width: 25%;">
                                     <a href="?action=edit&id=<?php echo $userid ?>&error=0" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex">
-                                        <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
                                         <div>
                                                 <div class="h1-dashboard">
                                                     Account Settings  &nbsp;
@@ -186,7 +193,6 @@
                             <td style="width: 25%;">
                                     <a href="?action=view&id=<?php echo $userid ?>" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex;">
-                                        <div class="btn-icon-back dashboard-icons-setting " style="background-image: url('../img/icons/view-iceblue.svg');"></div>
                                         <div>
                                                 <div class="h1-dashboard" >
                                                     View Account Details
@@ -211,7 +217,6 @@
                             <td style="width: 25%;">
                                     <a href="?action=drop&id=<?php echo $userid.'&name='.$username ?>" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex;">
-                                        <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/patients-hover.svg');"></div>
                                         <div>
                                                 <div class="h1-dashboard" style="color: #ff5050;">
                                                     Delete Account
@@ -262,7 +267,7 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from patient where pid='$id'";
+            $sqlmain= "select * from client where pid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
@@ -284,7 +289,7 @@
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                         
                             <tr>
                                 <td>
@@ -405,7 +410,7 @@
                                 <a class="close" href="settings.php">&times;</a> 
                                 <div style="display: flex;justify-content: center;">
                                 <div class="abc">
-                                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                                 <tr>
                                         <td class="label-td" colspan="2">'.
                                             $errorlist[$error_1]

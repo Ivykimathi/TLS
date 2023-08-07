@@ -80,12 +80,12 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home menu-active menu-icon-home-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                <td class="menu-btn menu-icon-doctor">
+                <td>
                    <a href="advocates.php" class="non-style-link-menu">
                     <div>
                          <p class="menu-text">Advocates for You</p>
@@ -97,17 +97,17 @@
 
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td >
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -158,7 +158,7 @@
                         
                     <center>
                     <div id="blur-background"></div>
-                    <table class="filter-container doctor-header patient-header" style="border: none;width:95%" border="0" >
+                    <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
                     <tr>
                         <td >
                             <h3>Welcome to TLS, Sheria Mkononi!</h3>
@@ -166,13 +166,13 @@
                             <p>Do you need legal help, get to talk to our pool of  
                                 <a href="advocates.php" class="non-style-link"><b>"Advocates"</b></a> or get your
                                 <a href="schedule.php" class="non-style-link"><b>"DIY Documents"</b> </a><br>
-                                Track your past sessions and transactions.<br>Also get access to your legal documents without a hustle.<br><br>
+                                Track your past sessions and transactions.<br>Also get access to your legal advuments without a hustle.<br><br>
                             </p>
                             
                             <h3>Find an Advocate from here</h3>
                             <form action="schedule.php" method="post" style="display: flex">
 
-                                <input type="search" name="search" class="input-text " placeholder="Search for Advocates close to you and schedule a meeting" list="doctors" style="width:45%;">&nbsp;&nbsp;
+                                <input type="search" name="search" class="input-text " placeholder="Search for Advocates close to you and schedule a meeting" list="advocates" style="width:45%;">&nbsp;&nbsp;
                                 
                                 <?php
                                     echo '<datalist id="advocate">';
@@ -228,7 +228,7 @@
           <?php echo $advocaterow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          My Advocates &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Advocates &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=512&id=fnEVNYOK0uhR&format=png'); background-position: center; background-size: cover;"></div>
@@ -241,7 +241,7 @@
           <?php echo $clientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          My Documents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Documents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=PqDbOXnH4Mpu&format=png'); background-position: center; background-size: cover;"></div>
@@ -256,7 +256,7 @@
           <?php echo $appointmentrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          New Bookings &nbsp;&nbsp;
+          Appointments &nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=123456&format=png'); background-position: center; background-size: cover; margin-left: 0;"></div>
@@ -269,7 +269,7 @@
           <?php echo $schedulerow->num_rows ?>
         </div><br>
         <div class="h3-dashboard" style="font-size: 15px;">
-          Completed Sessions
+          Sessions
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=RcOIhFn0DUPd&format=png'); background-position: center; background-size: cover;"></div>
@@ -353,7 +353,7 @@
                                                     $scheduleid=$row["scheduleid"];
                                                     $title=$row["title"];
                                                     $apponum=$row["apponum"];
-                                                    $docname=$row["docname"];
+                                                    $advname=$row["advname"];
                                                     $scheduledate=$row["scheduledate"];
                                                     $scheduletime=$row["scheduletime"];
                                                    
@@ -365,7 +365,7 @@
                                                         substr($title,0,30)
                                                         .'</td>
                                                         <td>
-                                                        '.substr($docname,0,20).'
+                                                        '.substr($advname,0,20).'
                                                         </td>
                                                         <td style="text-align:center;">
                                                             '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'

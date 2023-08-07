@@ -79,28 +79,34 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td>
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
+                
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    <td>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -129,7 +135,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ");
+                        $list110 = $database->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advid=advocate.advid  where  advocate.advid=$userid ");
 
                         ?>
                         </p>
@@ -191,7 +197,7 @@
                 <?php
 
 
-                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
+                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,advocate.advname,client.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advid=advocate.advid  where  advocate.advid=$userid ";
 
                     if($_POST){
                         //print_r($_POST);
@@ -284,7 +290,7 @@
                                     $appoid=$row["appoid"];
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
-                                    $docname=$row["docname"];
+                                    $advname=$row["advname"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
                                     $pname=$row["pname"];
@@ -381,21 +387,21 @@
                             <tr>
                                 
                                 <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Select Doctor: </label>
+                                    <label for="advid" class="form-label">Select Advocate: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box" >
-                                    <option value="" disabled selected hidden>Choose Doctor Name from the list</option><br/>';
+                                    <select name="advid" id="" class="box" >
+                                    <option value="" disabled selected hidden>Choose Advocate Name from the list</option><br/>';
                                         
         
-                                        $list11 = $database->query("select  * from  doctor;");
+                                        $list11 = $database->query("select  * from  advocate;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
-                                            $sn=$row00["docname"];
-                                            $id00=$row00["docid"];
+                                            $sn=$row00["advname"];
+                                            $id00=$row00["advid"];
                                             echo "<option value=".$id00.">$sn</option><br/>";
                                         };
         
@@ -407,7 +413,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Number of Patients/Appointment Numbers : </label>
+                                    <label for="nop" class="form-label">Number of Clients/Appointment Numbers : </label>
                                 </td>
                             </tr>
                             <tr>
@@ -489,7 +495,7 @@
                         <a class="close" href="appointment.php">&times;</a>
                         <div class="content">
                             You want to delete this record<br><br>
-                            Patient Name: &nbsp;<b>'.substr($nameget,0,40).'</b><br>
+                            Client Name: &nbsp;<b>'.substr($nameget,0,40).'</b><br>
                             Appointment number &nbsp; : <b>'.substr($apponum,0,40).'</b><br><br>
                             
                         </div>
@@ -503,26 +509,26 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from advocate where advid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
+            $name=$row["advname"];
+            $email=$row["advemail"];
             $spe=$row["specialties"];
             
             $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
+            $nic=$row['advnic'];
+            $tele=$row['advtel'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
                         <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="advocates.php">&times;</a>
                         <div class="content">
-                            eDoc Web App<br>
+                            TLS Web App<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -589,7 +595,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                    <a href="advocates.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
                                 
                                     
                                 </td>

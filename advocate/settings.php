@@ -52,9 +52,7 @@
     $username=$userfetch["advname"];
 
 
-    //echo $userid;
-    //echo $username;
-    
+
     ?>
     <div class="container">
         <div class="menu">
@@ -80,28 +78,34 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td>
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
+                
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    <td>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -134,7 +138,7 @@
 
 
                                 $patientrow = $database->query("select  * from  client;");
-                                $doctorrow = $database->query("select  * from  advocate;");
+                                $advocaterow = $database->query("select  * from  advocate;");
                                 $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
                                 $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
 
@@ -162,7 +166,7 @@
                                 <td style="width: 25%;">
                                     <a href="?action=edit&id=<?php echo $userid ?>&error=0" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex">
-                                        <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
+                                        
                                         <div>
                                                 <div class="h1-dashboard">
                                                     Account Settings  &nbsp;
@@ -188,7 +192,6 @@
                             <td style="width: 25%;">
                                     <a href="?action=view&id=<?php echo $userid ?>" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex;">
-                                        <div class="btn-icon-back dashboard-icons-setting " style="background-image: url('../img/icons/view-iceblue.svg');"></div>
                                         <div>
                                                 <div class="h1-dashboard" >
                                                     View Account Details
@@ -204,7 +207,66 @@
                                 </td>
                                 
                             </tr>
-                            
+                            <tr>
+                                <td colspan="4">
+                                    <p style="font-size: 5px">&nbsp;</p>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td style="width: 50%;">
+                            <a href="#" class="non-style-link" onclick="showPopup('popup2');">
+                                    <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex">
+                                        
+                                        <div>
+                                                <div class="h1-dashboard">
+                                                    Document Verification  &nbsp;
+
+                                                </div><br>
+                                                <div class="h3-dashboard" style="font-size: 15px;">
+                                                    Upload your Practising certificate and admission number for verification
+                                                </div>
+                                        </div>
+                                                
+                                    </div>
+                                    </a>
+                                </td>
+                              
+                                
+                            </tr>
+                            <script>
+                                    // Function to show the popup
+                                    function showPopup(popupId) {
+                                        var popup = document.getElementById(popupId);
+                                        popup.style.display = "block";
+                                    }
+
+                                    // Function to close the popup
+                                    function closePopup(popupId) {
+                                        var popup = document.getElementById(popupId);
+                                        popup.style.display = "none";
+                                    }
+                                </script>
+                            <div id="popup2" class="overlay">
+                                <div class="popup">
+                                    <center>
+                                        <h2>Document Verification</h2>
+                                        <a class="close" href="#" onclick="closePopup('popup2');">&times;</a>
+                                    <div class="content">
+                                    
+                                    
+                                        <form action="update_verification.php" method="POST" enctype="multipart/form-data">
+                                            <label for="admission_number" class="form-label">Admission Number: </label>
+                                            <input type="text" name="admission_number" class="input-text" placeholder="Admission Number" required><br><br>
+
+                                            <label for="practicing_certificate" class="form-label">Practicing Certificate (PDF): </label>
+                                            <input type="file" name="practicing_certificate" accept=".pdf" required><br><br>
+
+                                            <input type="submit" value="Upload" class="login-btn btn-primary btn">
+                                        </form>
+                                    </div>
+                                    
+                                    
+                        </div>
                             <tr>
                                 <td colspan="4">
                                     <p style="font-size: 5px">&nbsp;</p>
@@ -214,7 +276,6 @@
                             <td style="width: 25%;">
                                     <a href="?action=drop&id=<?php echo $userid.'&name='.$username ?>" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex;">
-                                        <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/patients-hover.svg');"></div>
                                         <div>
                                                 <div class="h1-dashboard" style="color: #ff5050;">
                                                     Delete Account
@@ -256,7 +317,7 @@
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-doctor.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="delete-advocate.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
                         <a href="settings.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>
@@ -407,8 +468,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Doctor Details.</p>
-                                        Doctor ID : '.$id.' (Auto Generated)<br><br>
+                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Advocate Details.</p>
+                                        Advocate ID : '.$id.' (Auto Generated)<br><br>
                                         </td>
                                     </tr>
                                     <tr>

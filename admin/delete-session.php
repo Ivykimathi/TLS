@@ -17,9 +17,9 @@
         include("../connection.php");
         $id=$_GET["id"];
         //$result001= $database->query("select * from schedule where scheduleid=$id;");
-        //$email=($result001->fetch_assoc())["docemail"];
+        //$email=($result001->fetch_assoc())["advemail"];
         $sql= $database->query("delete from schedule where scheduleid='$id';");
-        //$sql= $database->query("delete from doctor where docemail='$email';");
+        //$sql= $database->query("delete from advocate where advemail='$email';");
         //print_r($email);
         header("location: schedule.php");
     }

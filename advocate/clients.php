@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
         
-    <title>Patients</title>
+    <title>Clients</title>
     <style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
@@ -80,28 +80,34 @@
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <td >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td>
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
                     </td>
                 </tr>
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
+                    <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
                 </tr>
+                
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
+                    <td>
+                        <a href="clients.php" class="non-style-link-menu"><div><p class="menu-text">My Clients</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -111,29 +117,29 @@
         <?php       
 
                     $selecttype="My";
-                    $current="My patients Only";
+                    $current="My Clients Only";
                     if($_POST){
 
                         if(isset($_POST["search"])){
                             $keyword=$_POST["search12"];
                             
-                            $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+                            $sqlmain= "select * from client where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
                             $selecttype="my";
                         }
                         
                         if(isset($_POST["filter"])){
                             if($_POST["showonly"]=='all'){
-                                $sqlmain= "select * from patient";
+                                $sqlmain= "select * from client";
                                 $selecttype="All";
-                                $current="All patients";
+                                $current="All clients";
                             }else{
-                                $sqlmain= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
+                                $sqlmain= "select * from appointment inner join client on client.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.advid=$userid;";
                                 $selecttype="My";
-                                $current="My patients Only";
+                                $current="My clients Only";
                             }
                         }
                     }else{
-                        $sqlmain= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
+                        $sqlmain= "select * from appointment inner join client on client.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.advid=$userid;";
                         $selecttype="My";
                     }
 
@@ -145,7 +151,7 @@
                 <tr >
                     <td width="13%">
 
-                    <a href="patient.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                    <a href="client.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                         
                     </td>
                     <td>
@@ -157,7 +163,6 @@
                             <?php
                                 echo '<datalist id="patient">';
                                 $list11 = $database->query($sqlmain);
-                               //$list12= $database->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -199,7 +204,7 @@
                 
                 <tr>
                     <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $selecttype." Patients (".$list11->num_rows.")"; ?></p>
+                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $selecttype." Clients (".$list11->num_rows.")"; ?></p>
                     </td>
                     
                 </tr>
@@ -290,7 +295,7 @@
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="patient.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
+                                    <a class="non-style-link" href="client.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Clients &nbsp;</font></button>
                                     </a>
                                     </center>
                                     <br><br><br><br>
@@ -356,7 +361,7 @@
         
         $id=$_GET["id"];
         $action=$_GET["action"];
-            $sqlmain= "select * from patient where pid='$id'";
+            $sqlmain= "select * from client where pid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
@@ -369,7 +374,7 @@
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
-                        <a class="close" href="patient.php">&times;</a>
+                        <a class="close" href="client.php">&times;</a>
                         <div class="content">
 
                         </div>
@@ -384,7 +389,7 @@
                             <tr>
                                 
                                 <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Patient ID: </label>
+                                    <label for="name" class="form-label">Client ID: </label>
                                 </td>
                             </tr>
                             <tr>
@@ -461,7 +466,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                    <a href="client.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
                                 
                                     
                                 </td>

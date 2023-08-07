@@ -80,28 +80,34 @@
                  </td>
              </tr>
              <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home " >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">Advocates for you</p></a></div>
-                    </td>
-                </tr>
+                <td>
+                   <a href="advocates.php" class="non-style-link-menu">
+                    <div>
+                         <p class="menu-text">Advocates for You</p>
+                            
+                    </div>
+                </a>
+            </td>
+        </tr>
+
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session menu-active menu-icon-session-active">
-                        <a href="schedule.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Scheduled Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td >
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -110,7 +116,7 @@
         </div>
         <?php
 
-                $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
+                $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
                 $sqlpt1="";
                 $insertkey="";
                 $q='';
@@ -121,7 +127,7 @@
                         if(!empty($_POST["search"])){
                             
                             $keyword=$_POST["search"];
-                            $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduledate>='$today' and (doctor.docname='$keyword' or doctor.docname like '$keyword%' or doctor.docname like '%$keyword' or doctor.docname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
+                            $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduledate>='$today' and (advocate.advname='$keyword' or advocate.advname like '$keyword%' or advocate.advname like '%$keyword' or advocate.advname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
                             //echo $sqlmain;
                             $insertkey=$keyword;
                             $searchtype="Search Result : ";
@@ -145,11 +151,11 @@
                     <td >
                             <form action="" method="post" class="header-search">
 
-                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Advocates name or Email or Date (YYYY-MM-DD)" list="doctors" value="<?php  echo $insertkey ?>">&nbsp;&nbsp;
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Advocates name or Email or Date (YYYY-MM-DD)" list="advocates" value="<?php  echo $insertkey ?>">&nbsp;&nbsp;
                                         
                                         <?php
-                                            echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
+                                            echo '<datalist id="advocates">';
+                                            $list11 = $database->query("select DISTINCT * from  advocate;");
                                             $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
 
@@ -158,7 +164,7 @@
 
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
-                                                $d=$row00["docname"];
+                                                $d=$row00["advname"];
                                                
                                                 echo "<option value='$d'><br/>";
                                                
@@ -253,7 +259,7 @@
                                         };
                                         $scheduleid=$row["scheduleid"];
                                         $title=$row["title"];
-                                        $docname=$row["docname"];
+                                        $advname=$row["advname"];
                                         $scheduledate=$row["scheduledate"];
                                         $scheduletime=$row["scheduletime"];
 
@@ -270,7 +276,7 @@
                                                                 '.substr($title,0,21).'
                                                             </div><br>
                                                             <div class="h3-search">
-                                                                '.substr($docname,0,30).'
+                                                                '.substr($advname,0,30).'
                                                             </div>
                                                             <div class="h4-search">
                                                                 '.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)

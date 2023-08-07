@@ -16,10 +16,7 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            font-family: Garamond, serif;
-            
-        }
+        
 </style>
 </head>
 <body>
@@ -57,7 +54,7 @@
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title">Administrator</p>
-                                    <p class="profile-subtitle">admin@edoc.com</p>
+                                    <p class="profile-subtitle">admin@tls.com</p>
                                 </td>
                             </tr>
                             <tr>
@@ -70,31 +67,30 @@
                 
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="index.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Dashboard</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor ">
-                        <a href="doctors.php" class="non-style-link-menu "><div><p class="menu-text">Advocates</p></a></div>
+                    <td >
+                        <a href="advocates.php" class="non-style-link-menu "><div><p class="menu-text">Advocates</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule menu-active menu-icon-schedule-active">
-                        <a href="schedule.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Schedule</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
+                    <td >
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">Clients</p></a></div>
+                    <td>
+                        <a href="client.php" class="non-style-link-menu"><div><p class="menu-text">Clients</p></a></div>
                     </td>
                 </tr>
-
             </table>
         </div>
         <div class="dash-body">
@@ -168,17 +164,17 @@
                         Advocate:
                         </td>
                         <td width="30%">
-                        <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
+                        <select name="advid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
                             <option value="" disabled selected hidden>Choose Advocate Name from the list</option><br/>
                                 
                             <?php 
                             
-                                $list11 = $database->query("select  * from  doctor order by docname asc;");
+                                $list11 = $database->query("select  * from  advocate order by advname asc;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
-                                    $sn=$row00["docname"];
-                                    $id00=$row00["docid"];
+                                    $sn=$row00["advname"];
+                                    $id00=$row00["advid"];
                                     echo "<option value=".$id00.">$sn</option><br/>";
                                 };
 
@@ -211,13 +207,13 @@
 
 
                         $sqlpt2="";
-                        if(!empty($_POST["docid"])){
-                            $docid=$_POST["docid"];
-                            $sqlpt2=" doctor.docid=$docid ";
+                        if(!empty($_POST["advid"])){
+                            $advid=$_POST["advid"];
+                            $sqlpt2=" advocate.advid=$advid ";
                         }
                         //echo $sqlpt2;
                         //echo $sqlpt1;
-                        $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid ";
+                        $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid ";
                         $sqllist=array($sqlpt1,$sqlpt2);
                         $sqlkeywords=array(" where "," and ");
                         $key2=0;
@@ -234,7 +230,7 @@
                         
                         //
                     }else{
-                        $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  order by schedule.scheduledate desc";
+                        $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid  order by schedule.scheduledate desc";
 
                     }
 
@@ -305,7 +301,7 @@
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
-                                    $docname=$row["docname"];
+                                    $advname=$row["advname"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
                                     $nop=$row["nop"];
@@ -314,7 +310,7 @@
                                         substr($title,0,30)
                                         .'</td>
                                         <td>
-                                        '.substr($docname,0,20).'
+                                        '.substr($advname,0,20).'
                                         </td>
                                         <td style="text-align:center;">
                                             '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
@@ -367,7 +363,7 @@
                         <a class="close" href="schedule.php">&times;</a> 
                         <div style="display: flex;justify-content: center;">
                         <div class="abc">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                         <tr>
                                 <td class="label-td" colspan="2">'.
                                    ""
@@ -394,21 +390,21 @@
                             <tr>
                                 
                                 <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Select Doctor: </label>
+                                    <label for="advid" class="form-label">Select Advocate: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box" >
-                                    <option value="" disabled selected hidden>Choose Doctor Name from the list</option><br/>';
+                                    <select name="advid" id="" class="box" >
+                                    <option value="" disabled selected hidden>Choose Advocate Name from the list</option><br/>';
                                         
         
-                                        $list11 = $database->query("select  * from  doctor order by docname asc;");
+                                        $list11 = $database->query("select  * from  advocate order by advname asc;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
-                                            $sn=$row00["docname"];
-                                            $id00=$row00["docid"];
+                                            $sn=$row00["advname"];
+                                            $id00=$row00["advid"];
                                             echo "<option value=".$id00.">$sn</option><br/>";
                                         };
         
@@ -420,7 +416,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Number of Patients/Appointment Numbers : </label>
+                                    <label for="nop" class="form-label">Number of Clients/Appointment Numbers : </label>
                                 </td>
                             </tr>
                             <tr>
@@ -512,10 +508,10 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where  schedule.scheduleid=$id";
+            $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid  where  schedule.scheduleid=$id";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $docname=$row["docname"];
+            $advname=$row["advname"];
             $scheduleid=$row["scheduleid"];
             $title=$row["title"];
             $scheduledate=$row["scheduledate"];
@@ -525,7 +521,7 @@
             $nop=$row['nop'];
 
 
-            $sqlmain12= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.scheduleid=$id;";
+            $sqlmain12= "select * from appointment inner join client on client.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.scheduleid=$id;";
             $result12= $database->query($sqlmain12);
             echo '
             <div id="popup1" class="overlay">
@@ -538,7 +534,7 @@
                             
                         </div>
                         <div class="abc scroll" style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                         
                             <tr>
                                 <td>
@@ -560,12 +556,12 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Doctor of this session: </label>
+                                    <label for="Email" class="form-label">Advocate of this session: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                '.$docname.'<br><br>
+                                '.$advname.'<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -590,7 +586,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label"><b>Patients that Already registerd for this session:</b> ('.$result12->num_rows."/".$nop.')</label>
+                                    <label for="spec" class="form-label"><b>Clients Already registerd for this session:</b> ('.$result12->num_rows."/".$nop.')</label>
                                     <br><br>
                                 </td>
                             </tr>
@@ -604,10 +600,10 @@
                                  <thead>
                                  <tr>   
                                         <th class="table-headin">
-                                             Patient ID
+                                             Client ID
                                          </th>
                                          <th class="table-headin">
-                                             Patient name
+                                             Client name
                                          </th>
                                          <th class="table-headin">
                                              
@@ -617,7 +613,7 @@
                                         
                                          
                                          <th class="table-headin">
-                                             Patient Telephone
+                                             Client Telephone
                                          </th>
                                          
                                  </thead>

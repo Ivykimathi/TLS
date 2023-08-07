@@ -94,30 +94,35 @@
                             </tr>
                     </table>
                     </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home" >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    <tr class="menu-row" >
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">Advocates for you</p></a></div>
-                    </td>
-                </tr>
+                <td>
+                   <a href="advocates.php" class="non-style-link-menu">
+                    <div>
+                         <p class="menu-text">Advocates for You</p>
+                            
+                    </div>
+                </a>
+            </td>
+        </tr>
+
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Scheduled Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment  menu-active menu-icon-appoinment-active">
-                        <a href="appointment.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">History</p></a></div>
+                    <td >
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td >
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -247,7 +252,7 @@
                                             };
                                             $scheduleid=$row["scheduleid"];
                                             $title=$row["title"];
-                                            $docname=$row["docname"];
+                                            $advname=$row["advname"];
                                             $scheduledate=$row["scheduledate"];
                                             $scheduletime=$row["scheduletime"];
                                             $apponum=$row["apponum"];
@@ -274,7 +279,7 @@
                                                                     Appointment Number:<div class="h1-search">0'.$apponum.'</div>
                                                                 </div>
                                                                 <div class="h3-search">
-                                                                    '.substr($docname,0,30).'
+                                                                    '.substr($advname,0,30).'
                                                                 </div>
                                                                 
                                                                 
@@ -282,7 +287,7 @@
                                                                     Scheduled Date: '.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)
                                                                 </div>
                                                                 <br>
-                                                                <a href="?action=drop&id='.$appoid.'&title='.$title.'&doc='.$docname.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancel Booking</font></button></a>
+                                                                <a href="?action=drop&id='.$appoid.'&title='.$title.'&adv='.$advname.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancel Booking</font></button></a>
                                                         </div>
                                                                 
                                                     </div>
@@ -296,7 +301,7 @@
                                 //     $appoid=$row["appoid"];
                                 //     $scheduleid=$row["scheduleid"];
                                 //     $title=$row["title"];
-                                //     $docname=$row["docname"];
+                                //     $advname=$row["advname"];
                                 //     $scheduledate=$row["scheduledate"];
                                 //     $scheduletime=$row["scheduletime"];
                                 //     $pname=$row["pname"];
@@ -379,7 +384,7 @@
             ';
         }elseif($action=='drop'){
             $title=$_GET["title"];
-            $docname=$_GET["doc"];
+            $advname=$_GET["adv"];
             
             echo '
             <div id="popup1" class="overlay">
@@ -390,7 +395,7 @@
                         <div class="content">
                             You want to Cancel this Appointment?<br><br>
                             Session Name: &nbsp;<b>'.substr($title,0,40).'</b><br>
-                            Doctor name&nbsp; : <b>'.substr($docname,0,40).'</b><br><br>
+                            Doctor name&nbsp; : <b>'.substr($advname,0,40).'</b><br><br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -403,30 +408,30 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from advocate where advid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
+            $name=$row["advname"];
+            $email=$row["advemail"];
             $spe=$row["specialties"];
             
             $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
+            $nic=$row['advnic'];
+            $tele=$row['advtel'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
                         <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="advocates.php">&times;</a>
                         <div class="content">
                             eDoc Web App<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <table width="80%" class="sub-table scrolldown add-adv-form-container" border="0">
                         
                             <tr>
                                 <td>
@@ -489,7 +494,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                    <a href="advocates.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
                                 
                                     
                                 </td>

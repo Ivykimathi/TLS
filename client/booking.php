@@ -16,10 +16,7 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        body{
-            
-            font-family: Garamond, serif;   
-        }
+        
 </style>
 </head>
 <body>
@@ -30,7 +27,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='c'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -43,7 +40,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $database->query("select * from client where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -85,28 +82,34 @@
                  </td>
              </tr>
              <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home " >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    <td >
+                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">All Doctors</p></a></div>
-                    </td>
-                </tr>
+                <td>
+                   <a href="advocates.php" class="non-style-link-menu">
+                    <div>
+                         <p class="menu-text">Advocates for You</p>
+                            
+                    </div>
+                </a>
+            </td>
+        </tr>
+
                 
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session menu-active menu-icon-session-active">
-                        <a href="schedule.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Scheduled Sessions</p></div></a>
+                    <td>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule Sessions</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Bookings</p></a></div>
+                    <td >
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
+                    <td >
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
@@ -123,11 +126,11 @@
                     <td >
                             <form action="schedule.php" method="post" class="header-search">
 
-                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email or Date (YYYY-MM-DD)" list="doctors" >&nbsp;&nbsp;
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Advocates name or Email or Date (YYYY-MM-DD)" list="advocates" >&nbsp;&nbsp;
                                         
                                         <?php
-                                            echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
+                                            echo '<datalist id="advocates">';
+                                            $list11 = $database->query("select DISTINCT * from  advocate;");
                                             $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
 
@@ -136,7 +139,7 @@
 
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
-                                                $d=$row00["docname"];
+                                                $d=$row00["advname"];
                                                
                                                 echo "<option value='$d'><br/>";
                                                
@@ -208,15 +211,15 @@
 
                                     $id=$_GET["id"];
 
-                                    $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
+                                    $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
 
                                     //echo $sqlmain;
                                     $result= $database->query($sqlmain);
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
-                                    $docname=$row["docname"];
-                                    $docemail=$row["docemail"];
+                                    $advname=$row["advname"];
+                                    $advemail=$row["advemail"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
                                     $sql2="select * from appointment where scheduleid=$id";
@@ -244,8 +247,8 @@
                                                             Session Details
                                                         </div><br><br>
                                                         <div class="h3-search" style="font-size:18px;line-height:30px">
-                                                            Doctor name:  &nbsp;&nbsp;<b>'.$docname.'</b><br>
-                                                            Doctor Email:  &nbsp;&nbsp;<b>'.$docemail.'</b> 
+                                                            Advocate name:  &nbsp;&nbsp;<b>'.$advname.'</b><br>
+                                                            Advocate Email:  &nbsp;&nbsp;<b>'.$advemail.'</b> 
                                                         </div>
                                                         <div class="h3-search" style="font-size:18px;">
                                                           
@@ -254,7 +257,7 @@
                                                             Session Title: '.$title.'<br>
                                                             Session Scheduled Date: '.$scheduledate.'<br>
                                                             Session Starts : '.$scheduletime.'<br>
-                                                            Channeling fee : <b>LKR.2 000.00</b>
+                                                            Channeling fee : <b>KES.2 000.00</b>
 
                                                         </div>
                                                         <br>
