@@ -103,6 +103,11 @@
                 </tr>
                 <tr class="menu-row" >
                     <td>
+                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">Messages</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>
@@ -151,7 +156,7 @@
                 <tr >
                     <td width="13%">
 
-                    <a href="client.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                    <a href="clients.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                         
                     </td>
                     <td>

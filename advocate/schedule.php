@@ -93,6 +93,11 @@
                 </tr>
                 <tr class="menu-row" >
                     <td>
+                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">Messages</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
                         <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>

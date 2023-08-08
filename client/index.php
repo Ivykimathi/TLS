@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
-        
+    
     <title>Dashboard</title>
     <style>
         .dashbord-tables{
@@ -103,7 +103,17 @@
                 </tr>
                 <tr class="menu-row" >
                     <td >
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointments</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
+                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">My Messages</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
@@ -241,7 +251,7 @@
           <?php echo $clientrow->num_rows ?>
         </div><br>
         <div class="h3-dashboard">
-          Documents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Clients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
       <div class="btn-icon-back dashboard-icons" style="background-image: url('https://img.icons8.com/?size=2x&id=PqDbOXnH4Mpu&format=png'); background-position: center; background-size: cover;"></div>
@@ -400,7 +410,27 @@
             </table>
         </div>
     </div>
+    <style>
+        .floating-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #89CFF0;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        
+        }
 
+        .floating-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        </style>
+
+    <a href="blog.php" class="floating-button">Blog</a>
 
 </body>
 </html>

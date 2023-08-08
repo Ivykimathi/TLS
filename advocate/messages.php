@@ -7,44 +7,22 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Documents</title>
+    
+    <title>Dashboard</title>
     <style>
-        .dashbord-tables,.advocate-heade{
+        .dashbord-tables{
             animation: transitionIn-Y-over 0.5s;
         }
         .filter-container{
             animation: transitionIn-Y-bottom  0.5s;
         }
-        .sub-table,#anim{
+        .sub-table,.anime{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        .advocate-heade{
-            animation: transitionIn-Y-over 0.5s;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .overlay-content {
-            background-color: #fff;
-            padding: 20px;
-            max-width: 400px;
-            text-align: center;
-        }
-
+        
     </style>
     
-
+    
 </head>
 <body>
     <?php
@@ -71,15 +49,6 @@
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["advid"];
     $username=$userfetch["advname"];
-    $verified = $userfetch['verified'];
-
-   
-    if ($verified == 0) {
-        // Advocate is not verified, display the prompt to upload necessary documents
-        
-        echo '<script>document.body.classList.add("overlay-active");</script>';
-    }
-
 
 
     //echo $userid;
@@ -87,6 +56,7 @@
     
     ?>
     <div class="container">
+        
         <div class="menu">
             <table class="menu-container" border="0">
                 <tr>
@@ -148,14 +118,14 @@
                 </tr>
                 
             </table>
-        </div>
+</div>
         <div class="dash-body" style="margin-top: 15px">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;" >
                         
                         <tr >
                             
                             <td colspan="1" class="nav-bar" >
-                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">Documents</p>
+                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">Home</p>
                           
                             </td>
                             <td width="25%">
@@ -191,53 +161,98 @@
                 <tr>
                     <td colspan="4" >
                         
-                    <center>
-                    <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
-                    <tr>
-                        <td >
-                            <h3>Welcome to Your Document generator!</h3>
-                            <h1><?php echo $username  ?>.</h1>
-                            
-                                <form id="documentForm">
-                                    <label for="userPrompt">Enter your question or prompt:</label><br>
-                                    <textarea id="userPrompt" rows="5" cols="50" required></textarea><br>
-                                    <input type="button" value="Generate Document" onclick="generateDocument()">
-                                </form>
+    <style>
+        
+            .bubbleWrapper {
+                padding: 10px 10px;
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+                align-self: flex-end;
+            color: #fff;
+            }
+            .inlineContainer {
+            display: inline-flex;
+            }
+            .inlineContainer.own {
+            flex-direction: row-reverse;
+            }
+            .inlineIcon {
+            width:20px;
+            object-fit: contain;
+            }
+            .ownBubble {
+                min-width: 60px;
+                max-width: 700px;
+                padding: 14px 18px;
+            margin: 6px 8px;
+                background-color: #5b5377;
+                border-radius: 16px 16px 0 16px;
+                border: 1px solid #443f56;
+            
+            }
+            .otherBubble {
+                min-width: 60px;
+                max-width: 700px;
+                padding: 14px 18px;
+            margin: 6px 8px;
+                background-color: #6C8EA4;
+                border-radius: 16px 16px 16px 0;
+                border: 1px solid #54788e;
+            
+            }
+            .own {
+                align-self: flex-end;
+            }
+            .other {
+                align-self: flex-start;
+            }
+            span.own,
+            span.other{
+            font-size: 14px;
+            color: grey;
+            }
 
-                                <!-- The following will display the generated content and editable Word document side by side -->
-                                <div style="display: flex;">
-                                    <div id="generatedTextColumn">
-                                        <h2>Generated Text:</h2>
-                                        <div id="generatedText">
-                                            <!-- The generated text will be displayed here -->
-                                        </div>
-                                    </div>
-                                    <div id="editableDocumentColumn">
-                                        <h2>Editable Document:</h2>
-                                        <div id="editableDocument">
-                                            <!-- The editable Word document will be displayed here -->
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <script>
-                                    // Function to call the OpenAI API and generate the document based on user input
-                                    function generateDocument() {
-                                        const userPrompt = document.getElementById("userPrompt").value;
+    </style>
 
-                                        // Add your code here to call the OpenAI API and retrieve the generated text
-
-                                        // For demonstration purposes, let's assume the generated text is stored in a variable called 'generatedText'
-                                        const generatedText = "This is a sample generated text.";
-
-                                        // Display the generated text in the 'generatedText' div
-                                        const generatedTextDiv = document.getElementById("generatedText");
-                                        generatedTextDiv.innerHTML = generatedText;
-
-                                        // Transfer the generated text to the editable document div
-                                        const editableDocumentDiv = document.getElementById("editableDocument");
-                                        editableDocumentDiv.innerHTML = "<textarea rows='20' cols='80'>" + generatedText + "</textarea>";
-                                    }
-
-
-                                </script>
+<div class="bubbleWrapper">
+    <div class="inlineContainer">
+        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
+        <div class="otherBubble other">
+            Hello Wakili, wanted to ask how my case looks
+        </div>
+    </div><span class="other">08:41</span>
+</div>
+<div class="bubbleWrapper">
+    <div class="inlineContainer own">
+        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__user_person_profile-128.png">
+        <div class="ownBubble own">
+         Hey Jane, the court dates have not been released yet.
+        </div>
+    </div><span class="own">08:55</span>
+</div>
+<div class="bubbleWrapper">
+    <div class="inlineContainer">
+        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
+        <div class="otherBubble other">
+           I'm getting anxious, is there something I should do before
+        </div>
+    </div>
+</div><span class="other">10:13</span>
+<div class="bubbleWrapper">
+    <div class="inlineContainer own">
+        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__user_person_profile-128.png">
+        <div class="ownBubble own">
+        Calm down. Everything will be alright. Just ensure to not get into contact with your ex-husband
+        </div>
+    </div><span class="own">11:07</span>
+</div>
+<div class="bubbleWrapper">
+    <div class="inlineContainer">
+        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
+        <div class="otherBubble other">
+            Alright thanks Wakili, I will keep in touch
+        </div>
+    </div><span class="other">11:11</span>
+</div>

@@ -54,7 +54,7 @@
     session_start();
 
     if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='l'){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='c'){
             header("location: ../login.php");
         }else{
             $useremail=$_SESSION["user"];
@@ -67,18 +67,11 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from advocate where advemail='$useremail'");
+    $userrow = $database->query("select * from client where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["advid"];
-    $username=$userfetch["advname"];
-    $verified = $userfetch['verified'];
-
-   
-    if ($verified == 0) {
-        // Advocate is not verified, display the prompt to upload necessary documents
-        
-        echo '<script>document.body.classList.add("overlay-active");</script>';
-    }
+    $userid= $userfetch["pid"];
+    $username=$userfetch["pname"];
+    
 
 
 
@@ -133,7 +126,7 @@
                 </tr>
                 <tr class="menu-row" >
                     <td>
-                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">Messages</p></a></div>
+                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">My Messages</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
@@ -192,52 +185,61 @@
                     <td colspan="4" >
                         
                     <center>
-                    <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
-                    <tr>
-                        <td >
-                            <h3>Welcome to Your Document generator!</h3>
-                            <h1><?php echo $username  ?>.</h1>
-                            
-                                <form id="documentForm">
-                                    <label for="userPrompt">Enter your question or prompt:</label><br>
-                                    <textarea id="userPrompt" rows="5" cols="50" required></textarea><br>
-                                    <input type="button" value="Generate Document" onclick="generateDocument()">
-                                </form>
+    <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
+    <tr>
+        <td >
+            <h3>Welcome to the Document generator!</h3>
+            <h1>Your Research Assistant</h1>
+            
+                <form id="documentForm">
+                    <label for="userPrompt">Enter your question or prompt:</label><br>
+                    <textarea id="userPrompt" rows="5" cols="50" required></textarea><br>
+                    <input type="button" value="Generate Document" onclick="generateDocument()">
+                </form>
 
-                                <!-- The following will display the generated content and editable Word document side by side -->
-                                <div style="display: flex;">
-                                    <div id="generatedTextColumn">
-                                        <h2>Generated Text:</h2>
-                                        <div id="generatedText">
-                                            <!-- The generated text will be displayed here -->
-                                        </div>
-                                    </div>
-                                    <div id="editableDocumentColumn">
-                                        <h2>Editable Document:</h2>
-                                        <div id="editableDocument">
-                                            <!-- The editable Word document will be displayed here -->
-                                        </div>
-                                    </div>
-                                </div>
+                <!-- The following will display the generated content and editable Word document side by side -->
+                <div>
+                    <div id="generatedText">
+                        <h2>Generated Text:</h2>
+                        <div id="generatedText">
+                            <!-- The generated text will be displayed here -->
+                        </div>
+                    </div>
+                    <div id="editableDocument">
+                        <h2>Editable Document:</h2>
+                        <div id="editableDocument">
+                            <!-- The editable Word document will be displayed here -->
+                        </div>
+                    </div>
+                </div>
 
-                                <script>
-                                    // Function to call the OpenAI API and generate the document based on user input
-                                    function generateDocument() {
-                                        const userPrompt = document.getElementById("userPrompt").value;
-
-                                        // Add your code here to call the OpenAI API and retrieve the generated text
-
-                                        // For demonstration purposes, let's assume the generated text is stored in a variable called 'generatedText'
-                                        const generatedText = "This is a sample generated text.";
-
-                                        // Display the generated text in the 'generatedText' div
-                                        const generatedTextDiv = document.getElementById("generatedText");
-                                        generatedTextDiv.innerHTML = generatedText;
-
-                                        // Transfer the generated text to the editable document div
-                                        const editableDocumentDiv = document.getElementById("editableDocument");
-                                        editableDocumentDiv.innerHTML = "<textarea rows='20' cols='80'>" + generatedText + "</textarea>";
-                                    }
-
-
-                                </script>
+                <script>
+                    // Function to call the OpenAI API and generate the document based on user input
+                    function generateDocument() {
+                        const userPrompt = document.getElementById("userPrompt").value;
+                
+                        // Add your code here to call the OpenAI API and retrieve the generated text
+                
+                        // For demonstration purposes, let's assume the generated text is stored in a variable called 'generatedText'
+                        const generatedText = "This is a sample generated text.";
+                
+                        // Display the generated text in the 'generatedText' div
+                        const generatedTextDiv = document.getElementById("generatedText");
+                        generatedTextDiv.innerHTML = generatedText;
+                
+                        // Check if the prompt should be added to the editable document
+                        const shouldAddToEditableDocument = userPrompt.startsWith("editable:");
+                
+                        // Transfer the generated text to the appropriate div
+                        if (shouldAddToEditableDocument) {
+                            // Add to editable document div
+                            const editableDocumentDiv = document.getElementById("editableDocument");
+                            const editableText = userPrompt.substring("editable:".length);
+                            editableDocumentDiv.innerHTML = "<textarea rows='20' cols='80'>" + editableText + "</textarea>";
+                        } else {
+                            // Add to generated text div
+                            const generatedTextDiv = document.getElementById("generatedText");
+                            generatedTextDiv.innerHTML = generatedText;
+                        }
+                    }
+                </script>

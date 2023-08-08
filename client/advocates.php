@@ -93,7 +93,17 @@
                 </tr>
                 <tr class="menu-row" >
                     <td >
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">History</p></a></div>
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
+                        <a href="messages.php" class="non-style-link-menu"><div><p class="menu-text">My Messages</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td>
+                        <a href="documents.php" class="non-style-link-menu"><div><p class="menu-text">My Documents</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
