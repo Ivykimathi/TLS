@@ -145,6 +145,7 @@ $spcil_name = isset($_GET['spcil_name']) ? $_GET['spcil_name'] : '';
                         
                         if(!empty($_POST["search"])){
                             
+                        
                             $keyword=$_POST["search"];
                             $sqlmain= "SELECT * from schedule inner join advocate on schedule.advname=advocate.advname where schedule.scheduledate>='$today' and (advocate.advname='$keyword' or advocate.advname like '$keyword%' or advocate.advname like '%$keyword' or advocate.advname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
                             //echo $sqlmain;
