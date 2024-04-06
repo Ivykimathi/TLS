@@ -86,12 +86,12 @@ if ($_POST) {
 
 
     <center>
-    <div class="container">
+    <div class="container"><a href="index.html">Home</a>
         <table border="0" style="width: 69%;">
             <tr>
                 <td colspan="2">
                     <p class="header-text">Let's Get Started</p>
-                    <p class="sub-text">It's Okey, Now Create User Account.</p>
+                    <p class="sub-text">It's Okay, Now Create User Account.</p>
                 </td>
             </tr>
             <tr>

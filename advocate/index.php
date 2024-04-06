@@ -69,16 +69,16 @@
     include("../connection.php");
     $userrow = $database->query("select * from advocate where advemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["advid"];
-    $username=$userfetch["advname"];
-    $verified = $userfetch['verified'];
+    // $userid= $userfetch["advid"];
+    // $username=$userfetch["advname"];
+    // $verified = $userfetch['verified'];
 
    
-    if ($verified == 0) {
-        // Advocate is not verified, display the prompt to upload necessary documents
+    // if ($verified == 0) {
+    //     // Advocate is not verified, display the prompt to upload necessary documents
         
-        echo '<script>document.body.classList.add("overlay-active");</script>';
-    }
+    //     echo '<script>document.body.classList.add("overlay-active");</script>';
+    // }
 
 
 
@@ -97,7 +97,7 @@
                                     <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
+                                    <!-- h hb<p class="profile-title"><?php echo substr($username,0,13)  ?>..</p> -->
                                     <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
                                 </td>
                             </tr>
@@ -120,11 +120,11 @@
                     </td>
                 </tr>
                 
-                <tr class="menu-row" >
+                <!-- <tr class="menu-row" >
                     <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
-                </tr>
+                </tr> -->
                 
                 <tr class="menu-row" >
                     <td>
@@ -191,12 +191,12 @@
                 <tr>
                     <td colspan="4" >
                         
-                    <center>
+                 <center>
                     <table class="filter-container advocate-header" style="border: none;width:95%" border="0" >
                     <tr>
                         <td >
                             <h3>Welcome to TLS Wakili!</h3>
-                            <h1><?php echo $username  ?>.</h1>
+                            <!-- <h1><?php echo $username  ?>.</h1> -->
                             <p>Join us in our mission to democratize the law. We are always trying to get justice to those in need.<br>
                             You can view your dailly schedule, Reach Clients from home!<br><br>
                             </p>
@@ -206,7 +206,7 @@
                         </td>
                     </tr>
                     </table>
-                    </center>
+                </center>
                     
                 </td>
                 </tr>
@@ -329,7 +329,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advid=advocate.advid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
+                                            $sqlmain= "select schedule.scheduleid,schedule.title,advocate.advname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join advocate on schedule.advname=advocate.advname  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
                                                 $result= $database->query($sqlmain);
                 
                                                 if($result->num_rows==0){

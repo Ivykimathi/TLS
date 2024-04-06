@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="css/animations.css">  
     <link rel="stylesheet" href="css/main.css">  
     <link rel="stylesheet" href="css/login.css">
-        
-    <title>Login</title>
-
-    
-    
+    <title>Login</title>   
 </head>
 <body>
     <?php
@@ -123,6 +119,7 @@
                     <p class="header-text">Welcome Back!</p>
                 </td>
             </tr>
+            <a href="index.html" class="btn btn-primary fw-bolder">Go Back</a>
         <div class="form-body">
             <tr>
                 <td>

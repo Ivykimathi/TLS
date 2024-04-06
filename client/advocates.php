@@ -118,7 +118,7 @@
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
                     <td width="13%">
-                        <a href="advocates.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                        <a href="index.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                     </td>
                     <td>
                         
@@ -242,12 +242,12 @@
                                 }
                                 else{
                                 for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
+                                   while( $row=$result->fetch_assoc()){
                                     $advid=$row["advid"];
                                     $name=$row["advname"];
                                     $email=$row["advemail"];
                                     $spe=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$spe'");
+                                    $spcil_res= $database->query("SELECT sname from specialties where id='$spe'");
                                     $spcil_array= $spcil_res->fetch_assoc();
                                     $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
@@ -258,7 +258,7 @@
                                         '.substr($email,0,20).'
                                         </td>
                                         <td>
-                                            '.substr($spcil_name,0,20).'
+                                            '.substr($spcil_name,0,50).'
                                         </td>
 
                                         <td>
@@ -266,13 +266,15 @@
                                         
                                         <a href="?action=view&id='.$advid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=session&id='.$advid.'&name='.$name.'"  class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Sessions</font></button></a>
+                                       
+                                       <a href="schedule.php?action=session&advid='.$advid.'&name='.urlencode($name).'&spcil_name='.urlencode($spcil_name).'" class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Sessions</font></button></a>
                                         </div>
                                         </td>
                                     </tr>';
                                     
                                 }
                             }
+                        }
                                  
                             ?>
  
@@ -402,7 +404,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="advocate.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                    <a href="advocates.php"><input type="button" value="close" class="login-btn btn-primary-soft btn" ></a>
                                 
                                     
                                 </td>

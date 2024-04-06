@@ -90,11 +90,11 @@
                     </td>
                 </tr>
                 
-                <tr class="menu-row" >
+                <!-- <tr class="menu-row" >
                     <td>
                         <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
                     </td>
-                </tr>
+                </tr> -->
                 
                 <tr class="menu-row" >
                     <td>
@@ -156,7 +156,7 @@
                 <tr >
                     <td width="13%">
 
-                    <a href="clients.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                    <a href="index.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                         
                     </td>
                     <td>

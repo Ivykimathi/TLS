@@ -1,3 +1,11 @@
+<?php
+// $action = $_GET['action'];
+// $advid = $_GET['advid'];
+
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+$spcil_name = isset($_GET['spcil_name']) ? $_GET['spcil_name'] : '';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +48,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from client where pemail='$useremail'");
+    $userrow = $database->query("SELECT * from client where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -127,7 +135,7 @@
         </div>
         <?php
 
-                $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
+                $sqlmain= "SELECT * from schedule inner join advocate on schedule.advname=advocate.advname where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
                 $sqlpt1="";
                 $insertkey="";
                 $q='';
@@ -138,7 +146,7 @@
                         if(!empty($_POST["search"])){
                             
                             $keyword=$_POST["search"];
-                            $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduledate>='$today' and (advocate.advname='$keyword' or advocate.advname like '$keyword%' or advocate.advname like '%$keyword' or advocate.advname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
+                            $sqlmain= "SELECT * from schedule inner join advocate on schedule.advname=advocate.advname where schedule.scheduledate>='$today' and (advocate.advname='$keyword' or advocate.advname like '$keyword%' or advocate.advname like '%$keyword' or advocate.advname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
                             //echo $sqlmain;
                             $insertkey=$keyword;
                             $searchtype="Search Result : ";
@@ -157,7 +165,7 @@
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
                     <td width="13%" >
-                    <a href="schedule.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                    <a href="index.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                     </td>
                     <td >
                             <form action="" method="post" class="header-search">
@@ -166,8 +174,8 @@
                                         
                                         <?php
                                             echo '<datalist id="advocates">';
-                                            $list11 = $database->query("select DISTINCT * from  advocate;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                                            $list11 = $database->query("SELECT DISTINCT * from  advocate;");
+                                            $list12 = $database->query("SELECT DISTINCT * from  schedule GROUP BY title;");
                                             
 
                                             
@@ -239,7 +247,7 @@
                         
                             <?php
 
-                                
+                                // echo "Hey there, Book an appointment with $advname";
                                 
 
                                 if($result->num_rows==0){
@@ -329,7 +337,65 @@
                             }
                                  
                             ?>
- 
+                            <form action="" method="post">
+  <label for="date">Preferred Date:</label>
+  <input type="date" id="date" name="date"><br><br>
+  
+  <label for="time">Preferred Time:</label>
+  <input type="time" id="time" name="time"><br><br>
+  
+  <!-- Additional user details fields -->
+
+  <button type="submit">Book Appointment</button>
+</form>
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Connect to your database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "legal_savannah";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+// Retrieve form data
+// $advname = $_POST['lawyer'];
+
+$sqlmain= "SELECT * from schedule inner join advocate on schedule.advname=advocate.advname where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
+              
+
+
+// You can also retrieve additional user details from the form if needed
+$useremail = $_SESSION['user'];
+$userrow = $database->query("SELECT * from client where pemail='$useremail'");
+    $userfetch=$userrow->fetch_assoc();
+    $userid= $userfetch["pid"];
+    $usertel= $userfetch["ptel"];
+    $username=$userfetch["pname"];
+
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    
+// Insert appointment details into the database
+$sql = "INSERT INTO schedule (advname, title, scheduledate, scheduletime, client, client_tel) VALUES ('$name','$spcil_name', '$date', '$time', '$username', '$usertel')";
+if ($conn->query($sql) === TRUE) {
+  // Redirect user to a confirmation page
+  echo "Successfully booked an appointment";
+//   header("Location: confirmation_page.php");
+//   exit();
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+// Close database connection
+$conn->close();
+}
+?>
                             </tbody>
 
                         </table>

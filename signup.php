@@ -56,6 +56,7 @@ if($_POST){
 
     <center>
     <div class="container">
+        <a href="index.html">Home</a>
         <table border="0">
             <tr>
                 <td colspan="2">

@@ -211,7 +211,7 @@
 
                                     $id=$_GET["id"];
 
-                                    $sqlmain= "select * from schedule inner join advocate on schedule.advid=advocate.advid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
+                                    $sqlmain= "select * from schedule inner join advocate on schedule.advname=advocate.advname where schedule.scheduleid=$id  order by schedule.scheduledate desc";
 
                                     //echo $sqlmain;
                                     $result= $database->query($sqlmain);

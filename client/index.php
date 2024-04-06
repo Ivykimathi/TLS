@@ -29,6 +29,8 @@
 
     //learn from w3schools.com
 
+use GuzzleHttp\Psr7\Request;
+
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -45,7 +47,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from client where pemail='$useremail'");
+    $userrow = $database->query("SELECT * from client where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -148,10 +150,10 @@
                                 echo $today;
 
 
-                                $clientrow = $database->query("select  * from  client;");
-                                $advocaterow = $database->query("select  * from  advocate;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $clientrow = $database->query("SELECT  * from  client;");
+                                $advocaterow = $database->query("SELECT  * from  advocate;");
+                                $appointmentrow = $database->query("SELECT  * from  appointment where appodate>='$today';");
+                                $schedulerow = $database->query("SELECT  * from  schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -180,28 +182,88 @@
                             </p>
                             
                             <h3>Find an Advocate from here</h3>
-                            <form action="schedule.php" method="post" style="display: flex">
+                            <!-- <form action="schedule.php" method="post" style="display: flex">
 
                                 <input type="search" name="search" class="input-text " placeholder="Search for Advocates close to you and schedule a meeting" list="advocates" style="width:45%;">&nbsp;&nbsp;
                                 
                                 <?php
-                                    echo '<datalist id="advocate">';
-                                    $list11 = $database->query("select  advname,advemail from  advocate;");
+                                //     echo '<datalist id="advocate">';
+                                //     $list11 = $database->query("SELECT  advname,advemail, advaddress FROM  advocate;");
     
-                                    for ($y=0;$y<$list11->num_rows;$y++){
-                                        $row00=$list11->fetch_assoc();
-                                        $d=$row00["advname"];
+                                //     for ($y=0;$y<$list11->num_rows;$y++){
+                                //         $row00=$list11->fetch_assoc();
+                                //         $d=$row00["advname"];
                                         
-                                        echo "<option value='$d'><br/>";
+                                //         echo "<option value='$d'><br/>";
                                         
-                                    };
+                                //     };
     
-                                echo ' </datalist>';
+                                // echo ' </datalist>';
     ?>
                                 
                            
                                 <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                            
+                             -->
+                                
+                                <!-- Search function -->
+    <form action="" method="GET">
+  <label for="location">Enter Location:</label>
+  <input type="text" id="location" name="location">
+  <button type="submit">Search</button>
+</form>
+
+<?php
+if(isset($_GET['location'])){
+// Connect to your database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "legal_savannah";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve location entered by the user
+$location = $_GET['location'];
+
+// Query database for lawyers in the specified location
+$sql = "SELECT * FROM advocate WHERE advaddress LIKE '%$location%'";
+$result = $conn->query($sql);
+
+// Check if any lawyers are found
+if ($result->num_rows > 0) {
+  // Display the list of lawyers
+  echo "<h2>Advocate in $location:</h2>";
+  echo "<table style='margin-left: 40px;width: 50%;  border-collapse: collapse;'>";
+  echo "<tr><th style='border: 1px solid black; padding: 8px; text-align: left;'>Name</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Email</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Phone</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Action</th></tr>";
+
+  while($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advname"] . "</td>";
+    echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advemail"] . "</td>";
+    echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advtel"] . "</td>";
+   echo  "</tr>";
+  }
+  echo "</table>";
+} else {
+  // Notify the user if no lawyers are found
+  echo "<p>No lawyers found in $location.</p>";
+}
+
+
+$conn->close();
+}
+?>
+
+
+<!-- <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"> -->
+
+</form>
+
                             <br>
                             <br>
                             
@@ -336,7 +398,7 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advid=advocate.advid  where  client.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
+                                                $sqlmain= "SELECT * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join client on client.pid=appointment.pid inner join advocate on schedule.advname=advocate.advname  where  client.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
                                                 //echo $sqlmain;
                                                 $result= $database->query($sqlmain);
                 

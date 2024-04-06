@@ -61,10 +61,10 @@ if($_POST){
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
             
-            $database->query("insert into advocate(advemail,advname,advpassword, advaddress, advnic,advdob,advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            $database->query("insert into webuser values('$email','l')");
+            // $database->query("insert into advocate(advemail,advname,advpassword, advaddress, advnic,advdob,advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            // $database->query("insert into webuser values('$email','l')");
 
-            //print_r("insert into advocate values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
+            // print_r("insert into advocate values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
             $_SESSION["usertype"]="l";
             $_SESSION["username"]=$fname;

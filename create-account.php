@@ -59,47 +59,47 @@ if ($_POST) {
             $database->query("INSERT INTO webuser VALUES ('$email','c','0')");
             $database->query("INSERT INTO confirmation_codes (email, code) VALUES ('$email', '$confirmationCode')");
 
-            $to = $email;
-            $subject = "Account Confirmation Code";
-            $message = "Hello $name,\n\nThank you for registering with us!\n\nYour confirmation code is: $confirmationCode\n\n";
-            $message .= "Please use this code to confirm your account.\n\n";
-            $headers = "From: sakindeborah@gmail.com"; // Set your email here
+            // $to = $email;
+            // $subject = "Account Confirmation Code";
+            // $message = "Hello $name,\n\nThank you for registering with us!\n\nYour confirmation code is: $confirmationCode\n\n";
+            // $message .= "Please use this code to confirm your account.\n\n";
+            // $headers = "From: sakindeborah@gmail.com"; // Set your email here
 
-            mail($to, $subject, $message, $headers);
+            // mail($to, $subject, $message, $headers);
             
             
             // Use Africa's Talking API to send SMS
-            $username = "spaceity";
-            $apiKey = "aceb788d6828c3f63825e81688a96ea02d10688548bacaf026a65910e6739296";
+            // $username = "spaceity";
+            // $apiKey = "aceb788d6828c3f63825e81688a96ea02d10688548bacaf026a65910e6739296";
     
             // Initialize the Africa's Talking SDK
-            $AT = new AfricasTalking($username, $apiKey);
+            // $AT = new AfricasTalking($username, $apiKey);
     
             // Format the phone number
-            $phoneNumber = "+254" . substr($tele, 1); // Assuming $tele is in the format 0712345678
+            // $phoneNumber = "+254" . substr($tele, 1); // Assuming $tele is in the format 0712345678
     
             // Create a message
-            $message = "Hello $name,\n\nThank you for registering with us!\n\nYour confirmation code is: $confirmationCode\n\nPlease use this code to confirm your account.";
+            // $message = "Hello $name,\n\nThank you for registering with us!\n\nYour confirmation code is: $confirmationCode\n\nPlease use this code to confirm your account.";
     
             // Send the SMS
-            $sms = $AT->sms();
-            $result = $sms->send([
-                'to' => $phoneNumber,
-                'message' => $message,
-            ]);
+            // $sms = $AT->sms();
+            // $result = $sms->send([
+            //     'to' => $phoneNumber,
+            //     'message' => $message,
+            // ]);
     
-            if ($result['status'] === 'success') {
-                $_SESSION["confirmation_phone"] = $phoneNumber;
-                header('Location: confirm_registration.php');
-                exit;
-            } else {
+            // if ($result['status'] === 'success') {
+            //     $_SESSION["confirmation_phone"] = $phoneNumber;
+            //     header('Location: confirm_registration.php');
+            //     exit;
+            // } else {
                 // Handle SMS sending failure
                 // You can add appropriate error handling here
-                echo "Failed to send confirmation code via SMS.";
-            }
-            $_SESSION["confirmation_email"] = $email;
-            header('Location: confirm_registration.php');
-            exit;
+                // echo "Failed to send confirmation code via SMS.";
+            // }
+            // $_SESSION["confirmation_email"] = $email;
+            // header('Location: confirm_registration.php');
+            // exit;
         }
     
     
