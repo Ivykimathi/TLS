@@ -766,9 +766,9 @@
 
 ?>
 </div>
-<script>
+<!-- <script>
    // Wait for the page to load
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
     // Check if the overlay class is present in the body tag
     if (document.body.classList.contains("overlay-active")) {
         // Create the overlay element
@@ -812,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-    </script>
+    </script> -->
 
 </body>
 </html>

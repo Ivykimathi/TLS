@@ -19,6 +19,64 @@
         .sub-table,.anime{
             animation: transitionIn-Y-bottom 0.5s;
         }
+        #input{
+            height: 7%;
+            min-height: 42px;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            margin: 8px 16px;
+            border-radius: 32px;
+            background: linear-gradient(#ececee 50%, #1c1c46 50%);
+            box-shadow: inset 0 1px 0 #777;
+        }
+        #text{
+            outline: none;
+            font-size: 20px;
+            background: #ececee;
+            color: #333;
+            border-radius: 32px 0 32px 32px;
+            padding: 0 16px;
+            border: solid 1px #777;
+            border-right: none;
+        }
+        #send{
+            outline: none;
+            font-size: 20px;
+            color: #eee;
+            background: #1c1c46;
+            border: none;
+            border-radius: 32px;
+            transition-duration: 0.2s;
+        }
+        #send:active{
+            font-size: 16px;
+        }
+        .left, .right{
+            font-size: 18px;
+            font-family: monospace;
+            display: inline-block;
+            width: auto;
+            max-width: 60%;
+            padding: 14px;
+            word-wrap: break-word;
+            margin: 8px 14px;
+        }
+        .left{
+            color: #000;
+            background: #b3bfca;
+            border-radius: 0 16px 16px 16px;
+        }
+        .right{
+            color: #fff;
+            background: #1c1f46;
+            border-radius: 16px 16px 0 16px;
+            float: right;
+            
+        }
+        .msgcon1, .msgcon2{
+            width: 100%;
+            display: inline-block;
+        }
         
     </style>
     
@@ -218,13 +276,16 @@
             font-size: 14px;
             color: grey;
             }
-
+            .left{
+            color: #000;
+            background: #b3bfca;
+            border-radius:  16px  16px  16px 0;
+        }
 
     </style>
 
-<div class="bubbleWrapper">
+<!-- <div class="bubbleWrapper">
     <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
         <div class="otherBubble other">
             Hello Wakili, wanted to ask how my case looks
         </div>
@@ -232,7 +293,6 @@
 </div>
 <div class="bubbleWrapper">
     <div class="inlineContainer own">
-        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__user_person_profile-128.png">
         <div class="ownBubble own">
          Hey Jane, the court dates have not been released yet.
         </div>
@@ -240,7 +300,6 @@
 </div>
 <div class="bubbleWrapper">
     <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
         <div class="otherBubble other">
            I'm getting anxious, is there something I should do before
         </div>
@@ -248,7 +307,6 @@
 </div><span class="other">10:13</span>
 <div class="bubbleWrapper">
     <div class="inlineContainer own">
-        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__user_person_profile-128.png">
         <div class="ownBubble own">
         Calm down. Everything will be alright. Just ensure to not get into contact with your ex-husband
         </div>
@@ -256,9 +314,108 @@
 </div>
 <div class="bubbleWrapper">
     <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn3.iconfinder.com/data/icons/leto-user-group/64/__woman_profile_user-128.png">
         <div class="otherBubble other">
             Alright thanks Wakili, I will keep in touch
         </div>
     </div><span class="other">11:11</span>
-</div>
+</div> -->
+<!--  text sending -->
+<!-- chatting with clients -->
+<div id="main">
+<form action="" method="post">
+        <div id="msgarea">
+            <div id="robot">
+                <div id="bot"></div>
+            </div>
+        </div>
+        <div id="input">
+        <!-- Input field for the client's message -->
+        <!-- <input type="text" name="client_message" placeholder="Your message"> -->
+        <!-- Input field for the advocate's response -->
+        <input type="text" name="advocate_message" placeholder="Advocate's response">
+        <button id="send">Send &nbsp;<i class="fa fa-paper-plane"></i></button>
+    </div>
+        
+    </form>
+    </div>
+    <?php
+// your_php_script.php
+
+// Check if the request method is POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Establish database connection
+    $conn = new mysqli("localhost", "root", "", "legal_savannah");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Get messages from the form
+    // $client_message = $_POST['client_message'];
+    $advocate_message = $_POST['advocate_message'];
+
+    // Prepare SQL statements for client's message
+    // $stmt_client = $conn->prepare("INSERT INTO messaging (client, client_message) VALUES (?, ?)");
+    // $stmt_client->bind_param("ss", $client, $client_message);
+    // $stmt_client->execute();
+    // $stmt_client->close();
+
+    // Prepare SQL statements for advocate's message
+    // $stmt_advocate = $conn->prepare("INSERT INTO messaging (advocate, advocate_message) VALUES (?, ?)");
+    // $stmt_advocate = $conn->prepare("UPDATE advocate_message = '$advocate_message' WHERE advocate = '$username'");
+    // $stmt_advocate->bind_param("ss", $username, $advocate_message);
+    // $stmt_advocate->execute();
+    // $stmt_advocate->close();
+
+    $sql="UPDATE messaging SET advocate_message = '$advocate_message' WHERE advocate = '$username'";
+   
+    
+
+    // Echo a response (optional)
+    // echo json_encode(['status' => 'success']);
+    echo"Message sent successfully!";
+    if ($conn->query($sql) === TRUE) {
+        // echo "Assessment saved successfully.";
+        $formMessage = "Form submitted successfully!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    // Close database connection
+    $conn->close();
+} 
+
+else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Connect to your database (replace with your database credentials)
+    $conn = new mysqli("localhost", "root", "", "legal_savannah");
+    
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    // Prepare and execute SQL statement to fetch messages for the advocate
+    $stmt = $conn->prepare("SELECT client, client_message FROM messaging WHERE advocate = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    // Display messages
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<p>{$row['client']}: {$row['client_message']}</p>";
+        }
+
+    } else {
+        echo "<p class='left'>No messages available</p>";
+    }
+    
+    // Close statement and database connection
+    $stmt->close();
+    $conn->close();
+} 
+else {
+    // Return an error response if the request method is neither POST nor GET
+    http_response_code(405); // Method Not Allowed
+    echo json_encode(['error' => 'Method Not Allowed']);
+}
+?>
+

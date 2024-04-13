@@ -40,7 +40,7 @@ include("connection.php");
 
 
 
-if($_POST){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result= $database->query("select * from webuser");
 
@@ -61,15 +61,18 @@ if($_POST){
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
             
-            // $database->query("insert into advocate(advemail,advname,advpassword, advaddress, advnic,advdob,advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            // $database->query("insert into webuser values('$email','l')");
+            $database->query("INSERT into advocate(advemail, advname, advpassword, advaddress, advnic, advdob, advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            $database->query("INSERT into webuser values('$email','l', '1')");
+
 
             // print_r("insert into advocate values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
             $_SESSION["usertype"]="l";
             $_SESSION["username"]=$fname;
 
-            header('Location: advocate/index.php');
+            // header('Location: advocate/index.php');
+            // $error='<label for="promter" class="form-label" style="color:green;text-align:center;">Registration successful! You can now <a href="login.php">login</a>.</label>';
+      echo "Registration successful! You can now <a href='login.php'>login</a>.";
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
         }
         

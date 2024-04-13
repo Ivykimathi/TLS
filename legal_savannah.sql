@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2023 at 01:16 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Apr 07, 2024 at 05:06 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -67,8 +67,7 @@ INSERT INTO `advocate` (`advid`, `advemail`, `advname`, `advpassword`, `advaddre
 (2, 'mumondunda@gmail.com', 'mumo ndunda', 'sakina2001', 'githunguri', '12345678', '2002-02-01', '0740678954', 1, '1'),
 (3, 'johndoe@gmail.com', 'John Doe', '0987', 'Utawala', '40203610', '1980-02-01', '0115151539', 1, '4'),
 (4, 'kacyobrienz@gmail.com', 'Kacy OBrien', '0987', '11309 Ellison Wilson Rd', '12324534', '2003-12-09', '0700987654', 1, '2'),
-(5, 'saka@gmail.com', 'Joel Sakin', 'kilo', NULL, '30293561', NULL, '0722386231', 0, '6'),
-(7, 'saka@gmail.com', 'Joel Sakin', '0987', NULL, '30293561', NULL, '0722386231', 0, '5');
+(5, 'saka@gmail.com', 'Joel Sakin', 'kilo', 'meru', '30293561', '2000-01-30', '0722386231', 1, '6');
 
 -- --------------------------------------------------------
 
@@ -90,7 +89,13 @@ CREATE TABLE `appointment` (
 
 INSERT INTO `appointment` (`appoid`, `pid`, `apponum`, `scheduleid`, `appodate`) VALUES
 (5, 1, 2, 4, '2023-08-05'),
-(6, 1, 1, 5, '2023-08-07');
+(6, 1, 1, 5, '2023-08-07'),
+(8, 21, 1, 16, '2024-04-06'),
+(9, 21, 1, 15, '2024-04-06'),
+(12, 13, 1, 14, '2024-04-06'),
+(13, 2, 2, 14, '2024-04-06'),
+(16, 21, 1, 20, '2024-04-06'),
+(17, 21, 1, 19, '2024-04-07');
 
 -- --------------------------------------------------------
 
@@ -131,7 +136,8 @@ INSERT INTO `client` (`pid`, `pemail`, `pname`, `ppassword`, `paddress`, `pnic`,
 (17, 'sakcad@gmail.com', 'Kacy OBrien', '0987', '11309 Ellison Wilson Rd', '38150945', '2003-12-02', '0115151539'),
 (18, 'sakin25412@gmail.com', 'Kacy OBrien', '0987', '11309 Ellison Wilson Rd', '38150945', '2003-12-02', '0115151539'),
 (19, 'sakinklasc@gmail.com', 'Kacy OBrien', '0987', '11309 Ellison Wilson Rd', '38150945', '2003-12-02', '0115151539'),
-(20, 'sakin@gmail.com', ' ', 'Sakina@2001', '', '', '0000-00-00', '0115151539');
+(20, 'sakin@gmail.com', ' ', 'Sakina@2001', '', '', '0000-00-00', '0115151539'),
+(21, 'kajujuivy7872@gmail.com', 'ivy kimathi', '123456', '1289', '123456', '2024-04-03', '0726508594');
 
 -- --------------------------------------------------------
 
@@ -152,7 +158,8 @@ CREATE TABLE `confirmation_codes` (
 
 INSERT INTO `confirmation_codes` (`id`, `email`, `code`, `created_at`) VALUES
 (15, 'sakinklasc@gmail.com', 846439, '2023-08-04 16:23:32'),
-(16, 'sakin@gmail.com', 255403, '2023-08-05 06:52:35');
+(16, 'sakin@gmail.com', 255403, '2023-08-05 06:52:35'),
+(17, 'kajujuivy7872@gmail.com', 717595, '2024-04-04 17:16:21');
 
 -- --------------------------------------------------------
 
@@ -298,26 +305,62 @@ INSERT INTO `messages` (`id`, `from_user`, `to_user`, `type`, `message`, `status
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messaging`
+--
+
+CREATE TABLE `messaging` (
+  `ID` int(10) NOT NULL,
+  `client` varchar(255) NOT NULL,
+  `client_message` text NOT NULL,
+  `advocate` varchar(255) NOT NULL,
+  `advocate_message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messaging`
+--
+
+INSERT INTO `messaging` (`ID`, `client`, `client_message`, `advocate`, `advocate_message`) VALUES
+(1, 'ivy kimathi', 'hello', 'Jane Doe', ''),
+(2, 'ivy kimathi', 'hello', 'Jane Doe', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `schedule`
 --
 
 CREATE TABLE `schedule` (
   `scheduleid` int(11) NOT NULL,
-  `advid` varchar(255) DEFAULT NULL,
+  `advname` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `scheduledate` date DEFAULT NULL,
   `scheduletime` time DEFAULT NULL,
-  `nop` int(4) DEFAULT NULL
+  `nop` int(4) DEFAULT NULL,
+  `client` varchar(255) NOT NULL,
+  `client_tel` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `schedule`
 --
 
-INSERT INTO `schedule` (`scheduleid`, `advid`, `title`, `scheduledate`, `scheduletime`, `nop`) VALUES
-(4, '2', 'Welcome for Emergency Services', '2023-08-05', '08:00:00', 20),
-(5, '3', 'Children and Related issues', '2023-08-09', '09:00:00', 30),
-(6, '4', 'Financial Law', '2023-08-19', '09:00:00', 15);
+INSERT INTO `schedule` (`scheduleid`, `advname`, `title`, `scheduledate`, `scheduletime`, `nop`, `client`, `client_tel`) VALUES
+(4, '2', 'Welcome for Emergency Services', '2023-08-05', '08:00:00', 20, '', 0),
+(5, '3', 'Children and Related issues', '2023-08-09', '09:00:00', 30, '', 0),
+(6, '4', 'Financial Law', '2023-08-19', '09:00:00', 15, '', 0),
+(7, '', NULL, '2024-04-10', '15:20:00', NULL, 'ivy kimathi', 726508594),
+(8, NULL, NULL, '2024-04-10', '15:20:00', NULL, 'ivy kimathi', 726508594),
+(9, '', '', '2024-04-17', '08:00:00', NULL, 'ivy kimathi', 726508594),
+(10, '<?php echo urlencode($name); ?>', '<?php echo urlencode($spcil_name); ?>', '2024-04-17', '08:00:00', NULL, 'ivy kimathi', 726508594),
+(11, '<?php echo urlencode($name); ?>', '', '2024-04-17', '08:00:00', NULL, 'ivy kimathi', 726508594),
+(12, ' Jane Doe', '', '2024-04-17', '08:00:00', NULL, 'sakini', 726508594),
+(13, 'mumo ndunda', '', '0000-00-00', '00:00:00', NULL, 'ivy kimathi', 726508594),
+(14, 'Joel Sakin', 'Industrial Relations, Unions and Employment', '2024-05-01', '09:40:00', NULL, 'ivy kimathi', 726508594),
+(19, 'mumo ndunda', 'Alternative Dispute Resolution', '2024-04-17', '07:50:00', NULL, 'ivy kimathi', 726508594),
+(20, 'Jane Doe', 'Criminal Law - General', '2024-04-20', '10:00:00', NULL, 'ivy kimathi', 726508594),
+(21, 'Kacy OBrien', 'Personal Injuries and Insurance Law', '2024-05-07', '16:30:00', NULL, 'ivy kimathi', 726508594),
+(22, 'John Doe', 'General Practice', '2024-05-30', '13:52:00', NULL, 'ivy kimathi', 726508594);
 
 -- --------------------------------------------------------
 
@@ -395,6 +438,7 @@ INSERT INTO `webuser` (`email`, `usertype`, `confirmed`) VALUES
 ('janedoe@gmail.com', 'l', 0),
 ('johndoe@gmail.com', 'l', 0),
 ('kacyobrienz@gmail.com', 'l', 0),
+('kajujuivy7872@gmail.com', 'c', 0),
 ('mumondunda@gmail.com', 'l', 0),
 ('sakcad@gmail.com', 'c', 0),
 ('sakin0987@gmail.com', 'c', 0),
@@ -465,11 +509,17 @@ ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `messaging`
+--
+ALTER TABLE `messaging`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `schedule`
 --
 ALTER TABLE `schedule`
   ADD PRIMARY KEY (`scheduleid`),
-  ADD KEY `advid` (`advid`);
+  ADD KEY `advid` (`advname`);
 
 --
 -- Indexes for table `specialties`
@@ -503,19 +553,19 @@ ALTER TABLE `advocate`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `appoid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `appoid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `confirmation_codes`
 --
 ALTER TABLE `confirmation_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `convo_list`
@@ -530,10 +580,16 @@ ALTER TABLE `messages`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
+-- AUTO_INCREMENT for table `messaging`
+--
+ALTER TABLE `messaging`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `specialties`

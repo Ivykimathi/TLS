@@ -34,7 +34,7 @@
 
 
 
-    if($_POST){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $email=$_POST['useremail'];
         $password=$_POST['userpassword'];

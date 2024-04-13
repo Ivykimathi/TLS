@@ -35,7 +35,7 @@ $date = date('Y-m-d');
 $_SESSION["date"] = $date;
 require 'vendor/autoload.php';
 use AfricasTalking\SDK\AfricasTalking;
-if ($_POST) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = $_SESSION['personal']['fname'];
     $lname = $_SESSION['personal']['lname'];
     $name = $fname . " " . $lname;
@@ -59,6 +59,9 @@ if ($_POST) {
             $database->query("INSERT INTO webuser VALUES ('$email','c','0')");
             $database->query("INSERT INTO confirmation_codes (email, code) VALUES ('$email', '$confirmationCode')");
 
+            $error = '<label for="promter" class="form-label" style="color:green;text-align:center;">
+            Account created successfully!You can now login</label>';
+ 
             // $to = $email;
             // $subject = "Account Confirmation Code";
             // $message = "Hello $name,\n\nThank you for registering with us!\n\nYour confirmation code is: $confirmationCode\n\n";
@@ -173,7 +176,12 @@ if ($_POST) {
             <tr>
                 
                 <td colspan="2">
-                    <?php echo $error ?>
+                    <?php 
+                    // echo $error
+                    if (isset($error)) {
+                        echo "<p style='color: red; font-weight: bold;'>$error</p>";
+                    }
+                    ?>
 
                 </td>
             </tr>

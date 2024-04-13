@@ -283,20 +283,23 @@
                                                                     Reference Number: OC-000-'.$appoid.'
                                                                 </div>
                                                                 <div class="h1-search">
-                                                                    '.substr($title,0,21).'<br>
+                                                                    '.substr($title,0,60).'<br>
                                                                 </div>
                                                                 <div class="h3-search">
-                                                                    Appointment Number:<div class="h1-search">0'.$apponum.'</div>
+                                                                    <b>Appointment Number:</b><div class="h1-search">0'.$apponum.'</div>
                                                                 </div>
                                                                 <div class="h3-search">
-                                                                    '.substr($advname,0,30).'
+                                                                <b>Advocate Name :</b> <br>'.substr($advname,0,30).'
                                                                 </div>
                                                                 
                                                                 
-                                                                <div class="h4-search">
-                                                                    Scheduled Date: '.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)
+                                                                <div class="h2-search">
+                                                                   <b>Scheduled Date: </b><br>
+                                                                    '.$scheduledate.'<br><b>Starts:</b> <b>@'.substr($scheduletime,0,5).'</b> (12h)
                                                                 </div>
                                                                 <br>
+                                                                <a href="messages.php?action=session&adv='.$advname.'" ><button  class="btn btn-primary" ><font>Message Advocate</font></button></a><br><br>
+                                                       
                                                                 <a href="?action=drop&id='.$appoid.'&title='.$title.'&adv='.$advname.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancel Booking</font></button></a>
                                                         </div>
                                                                 

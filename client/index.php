@@ -209,7 +209,7 @@ use GuzzleHttp\Psr7\Request;
     <form action="" method="GET">
   <label for="location">Enter Location:</label>
   <input type="text" id="location" name="location">
-  <button type="submit">Search</button>
+  <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <?php
@@ -238,7 +238,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // Display the list of lawyers
   echo "<h2>Advocate in $location:</h2>";
-  echo "<table style='margin-left: 40px;width: 50%;  border-collapse: collapse;'>";
+  echo "<table style='margin-left: 40px;width: 70%;  border-collapse: collapse;'>";
   echo "<tr><th style='border: 1px solid black; padding: 8px; text-align: left;'>Name</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Email</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Phone</th><th style='border: 1px solid black; padding: 8px; text-align: left;'>Action</th></tr>";
 
   while($row = $result->fetch_assoc()) {
@@ -246,6 +246,8 @@ if ($result->num_rows > 0) {
     echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advname"] . "</td>";
     echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advemail"] . "</td>";
     echo "<td style='border: 1px solid black; padding: 8px; text-align: left;'>" . $row["advtel"] . "</td>";
+    echo "<td><a href='advocates.php' value='Book Session' class='btn btn-primary'>Book Session</a></td>";
+            
    echo  "</tr>";
   }
   echo "</table>";

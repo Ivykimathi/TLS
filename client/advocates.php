@@ -205,11 +205,11 @@
                                 <th class="table-headin">
                                     Email
                                 </th>
-                                <th class="table-headin">
+                                <!-- <th class="table-headin">
                                     
                                     Specialties
                                     
-                                </th>
+                                </th> -->
                                 <th class="table-headin">
                                     
                                     Events
@@ -246,10 +246,10 @@
                                     $advid=$row["advid"];
                                     $name=$row["advname"];
                                     $email=$row["advemail"];
-                                    $spe=$row["specialties"];
-                                    $spcil_res= $database->query("SELECT sname from specialties where id='$spe'");
-                                    $spcil_array= $spcil_res->fetch_assoc();
-                                    $spcil_name=$spcil_array["sname"];
+                                    // $spe=$row["specialties"];
+                                    // $spcil_res= $database->query("SELECT sname from specialties where id='$spe'");
+                                    // $spcil_array= $spcil_res->fetch_assoc();
+                                    // $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
                                         <td> &nbsp;'.
                                         substr($name,0,30)
@@ -257,9 +257,7 @@
                                         <td>
                                         '.substr($email,0,20).'
                                         </td>
-                                        <td>
-                                            '.substr($spcil_name,0,50).'
-                                        </td>
+                                        
 
                                         <td>
                                         <div style="display:flex;justify-content: center;">
@@ -267,7 +265,7 @@
                                         <a href="?action=view&id='.$advid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
                                        &nbsp;&nbsp;&nbsp;
                                        
-                                       <a href="schedule.php?action=session&advid='.$advid.'&name='.urlencode($name).'&spcil_name='.urlencode($spcil_name).'" class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Sessions</font></button></a>
+                                       <a href="schedule.php?action=session&advid='.$advid.'&name='.urlencode($name).'" class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Sessions</font></button></a>
                                         </div>
                                         </td>
                                     </tr>';

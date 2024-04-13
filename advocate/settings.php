@@ -251,7 +251,7 @@
                                         popup.style.display = "none";
                                     }
                                 </script>
-                            <div id="popup2" class="overlay">
+                            <!-- <div id="popup2" class="overlay">
                                 <div class="popup">
                                     <center>
                                         <h2>Document Verification</h2>
@@ -277,7 +277,7 @@
                                     <p style="font-size: 5px">&nbsp;</p>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr> -->
                             <td style="width: 25%;">
                                     <a href="?action=drop&id=<?php echo $userid.'&name='.$username ?>" class="non-style-link">
                                     <div  class="dashboard-items setting-tabs"  style="padding:20px;margin:auto;width:95%;display: flex;">
