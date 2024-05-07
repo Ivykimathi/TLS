@@ -290,7 +290,8 @@
         </div>
     </div>
     <?php 
-    if($_GET){
+    // if($_GET){
+        if(isset($_GET["action"])) {
         
         $id=$_GET["id"];
         $action=$_GET["action"];

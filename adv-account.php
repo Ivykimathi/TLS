@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tele=$_POST['tele'];
     $newpassword=$_POST['newpassword'];
     $cpassword=$_POST['cpassword'];
+    $speciality = $_POST['speciality'];
     
     if ($newpassword==$cpassword){
         $result= $database->query("select * from webuser where email='$email';");
@@ -61,9 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
             
-            $database->query("INSERT into advocate(advemail, advname, advpassword, advaddress, advnic, advdob, advtel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            $database->query("INSERT into advocate(advemail, advname, advpassword, advaddress, advnic, advdob, advtel,specialties) values('$email','$name','$newpassword','$address','$nic','$dob','$tele','$speciality');");
             $database->query("INSERT into webuser values('$email','l', '1')");
 
+            $database->query("UPDATE advocate SET verified = 1 WHERE advemail = '$email'");
 
             // print_r("insert into advocate values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
@@ -124,14 +126,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
+                <label for="category"class="form-label">Choose a Speciality:<br><br></label>
+                <select name="speciality" id="speciality">
+                    <option value="1">Alternative Dispute Resolution</option>
+                    <option value="2">Personal Injuries and Insurance Law</option>
+                    <option value="3">Criminal Law - General</option>
+                    <option value="4">General Practice</option>
+                    <option value="5">Constitution and Human Rights Law</option>
+                    <option value="6">Industrial Relations, Unions and Employment</option>
+                </select>
+            </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
                     <label for="newpassword" class="form-label">Create New Password: </label>
                 </td>
             </tr>
+        
             <tr>
                 <td class="label-td" colspan="2">
                     <input type="password" name="newpassword" class="input-text" placeholder="New Password" required>
                 </td>
             </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
                     <label for="cpassword" class="form-label">Confirm Password: </label>
